@@ -4,12 +4,19 @@
   "description": "package for todo list",
   "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open"
   },
   "author": "Samuel Chan <samuelchanwk@hotmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "css-loader": "^6.1.0",
+    "html-webpack-plugin": "^5.3.2",
+    "style-loader": "^3.1.0",
     "webpack": "^5.45.1",
-    "webpack-cli": "^4.7.2"
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
   }
 }
