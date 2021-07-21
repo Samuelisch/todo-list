@@ -20,7 +20,7 @@ View task comment / details / description
 //localStorage - stores all projects and in those projects, all todos
 
 //Factory function for tasks
-const CreateTask = (title = 'New task', description = '', due = 'Today') => {
+const CreateTask = (title = 'New task', description = '', due = 'Today', flag = '') => {
     //change title, description or date
     function setTitle(title) {
         this.title = title;
@@ -34,7 +34,11 @@ const CreateTask = (title = 'New task', description = '', due = 'Today') => {
         this.due = due;
     }
 
-    return {title, description, due, setTitle, setDescription, setDue};
+    function setFlag(color) {
+        this.flag = color;
+    }
+
+    return {title, description, due, flag, setTitle, setDescription, setDue, setFlag};
 };
 
 //store tasks into an array - a list of tasks - project
