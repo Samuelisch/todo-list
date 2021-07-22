@@ -19,6 +19,8 @@ View task comment / details / description
 
 //localStorage - stores all projects and in those projects, all todos
 
+import './style.css';
+
 //Factory function for tasks
 const CreateTask = (title = 'New task', description = '', due = 'Today', flag = '') => {
     //change title, description or date
@@ -60,7 +62,33 @@ const CreateProject = (title = 'New project') => {
     return {title, setTitle, projectList, addTask};
 }
 
-const task1 = CreateTask('get groceries', 'description', 'tomorrow');
-const project1 = CreateProject('daily');
-project1.addTask(task1);
-console.log(project1.projectList);
+//tester for creation of tasks from webpage
+const body = document.querySelector('body');
+const form = document.createElement('form');
+const taskBox = document.createElement('input');
+taskBox.placeholder = 'Task';
+const descriptionBox = document.createElement('input');
+descriptionBox.placeholder = 'Description';
+const dueBox = document.createElement('input');
+dueBox.placeholder = 'Due date'
+const button = document.createElement('button');
+button.type = 'submit';
+button.textContent = 'Submit';
+button.addEventListener('click', clickHandler);
+
+form.appendChild(taskBox);
+form.appendChild(descriptionBox);
+form.appendChild(dueBox);
+form.appendChild(button);
+body.appendChild(form);
+
+function clickHandler(e) {
+    e.preventDefault();
+    const cell = document.createElement('div');
+    cell.className = 'cell'
+    cell.innerHTML = `
+        Task: ${taskBox.value}, Description: ${descriptionBox.value}, Due: ${dueBox.value}
+    `;
+    body.appendChild(cell);
+}
+
