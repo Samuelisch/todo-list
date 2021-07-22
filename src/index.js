@@ -47,7 +47,7 @@ const CreateTask = (title = 'New task', description = '', due = 'Today', flag = 
 //create Project factory function
 const CreateProject = (title = 'New project') => {
     //initialise project array
-    let projectList = [];
+    let taskList = [];
 
     //function to set title
     function setTitle(title) {
@@ -56,11 +56,14 @@ const CreateProject = (title = 'New project') => {
 
     //adds tasks to current projectList
     function addTask(task) {
-        projectList.push(task);
+        taskList.push(task);
     };
 
-    return {title, setTitle, projectList, addTask};
+    return {title, setTitle, taskList, addTask};
 }
+
+//initialise project for current page
+const defaultProject = CreateProject();
 
 //tester for creation of tasks from webpage
 const body = document.querySelector('body');
@@ -84,11 +87,16 @@ body.appendChild(form);
 
 function clickHandler(e) {
     e.preventDefault();
+    //create task and add to default project
+    const task = CreateTask(taskBox.value, descriptionBox.value, dueBox.value);
+    defaultProject.addTask(task);
+    console.log(defaultProject.taskList);
+
+    //create HTML elements and append to body
     const cell = document.createElement('div');
     cell.className = 'cell'
     cell.innerHTML = `
         Task: ${taskBox.value}, Description: ${descriptionBox.value}, Due: ${dueBox.value}
     `;
     body.appendChild(cell);
-
 }
