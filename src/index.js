@@ -90,5 +90,5 @@ function clickHandler(e) {
         Task: ${taskBox.value}, Description: ${descriptionBox.value}, Due: ${dueBox.value}
     `;
     body.appendChild(cell);
-}
 
+}
