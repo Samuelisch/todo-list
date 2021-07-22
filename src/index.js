@@ -21,15 +21,55 @@ View task comment / details / description
 
 import './style.css';
 
+//create and load page outline and navbar
+const body = document.querySelector('body');
+const header = document.createElement('header');
+header.innerHTML = `
+    <div id="header-bar">
+        <h2>Taskanator</h2>
+        <button class="nav-btn"><i class="fas fa-bars fa-2x"></i></button>
+    </div>
+    <div class="nav-bar">
+        <div class="wrapper">
+            <ul class="list">
+                <li data-link="total">
+                    <i class="fas fa-globe-americas"></i>
+                    <span>All tasks</span>
+                </li>
+                <li data-link="today">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Today</span>
+                </li>
+                <li data-link="week">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>This week</span>
+                </li>
+            </ul>
+            <h3>Projects</h3>
+            <ul class="list projects">
+            <!-- <i class="far fa-list-alt"></i> --> FOR FUTURE USE
+            </ul>
+        </div>
+    </div>
+`
+
+body.appendChild(header);
+
+const navBtn = document.querySelector('.nav-btn');
+const nav = document.querySelector('.nav-bar');
+
+function dropdownMenu() {
+    nav.classList.toggle('display');
+}
+
+navBtn.addEventListener('click', dropdownMenu);
+
+
 //Factory function for tasks
-const CreateTask = (title = 'New task', description = '', due = 'Today', flag = '') => {
-    //change title, description or date
+const CreateTask = (title = 'New task', due = 'Today', flag = '') => {
+    //change title, flag or date
     function setTitle(title) {
         this.title = title;
-    }
-
-    function setDescription(description) {
-        this.description = description;
     }
 
     function setDue(due) {
@@ -40,7 +80,7 @@ const CreateTask = (title = 'New task', description = '', due = 'Today', flag = 
         this.flag = color;
     }
 
-    return {title, description, due, flag, setTitle, setDescription, setDue, setFlag};
+    return {title, due, flag, setTitle, setDue, setFlag};
 };
 
 //store tasks into an array - a list of tasks - project
@@ -63,12 +103,9 @@ const CreateProject = (title = 'default') => {
 }
 
 //tester for creation of tasks from webpage
-const body = document.querySelector('body');
 const form = document.createElement('form');
 const taskBox = document.createElement('input');
 taskBox.placeholder = 'Task';
-const descriptionBox = document.createElement('input');
-descriptionBox.placeholder = 'Description';
 const dueBox = document.createElement('input');
 dueBox.placeholder = 'Due date'
 const button = document.createElement('button');
@@ -77,7 +114,6 @@ button.textContent = 'Submit';
 button.addEventListener('click', clickHandler);
 
 form.appendChild(taskBox);
-form.appendChild(descriptionBox);
 form.appendChild(dueBox);
 form.appendChild(button);
 body.appendChild(form);
@@ -103,7 +139,7 @@ let project = defaultProject; // flag for project selected
 function clickHandler(e) {
     e.preventDefault();
     //create task and add to project
-    const task = CreateTask(taskBox.value, descriptionBox.value, dueBox.value);
+    const task = CreateTask(taskBox.value, dueBox.value);
     addToProject(task);
     addToLocalStorage();
     //create HTML elements and append to body
@@ -123,7 +159,7 @@ function addToHtml(task) {
     const cell = document.createElement('div');
     cell.className = 'cell'
     cell.innerHTML = `
-        Task: ${task.title}, Description: ${task.description}, Due: ${task.due}
+        Task: ${task.title}, Due: ${task.due}
     `;
     body.appendChild(cell);
 }

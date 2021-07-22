@@ -1,10 +1,81 @@
+:root {
+    --black: rgb(29, 29, 29);
+    --white: rgb(243, 243, 243);
+}
+
 html,
 body {
     font-size: 10px;
     font-family: Arial, Helvetica, sans-serif;
-    
+    margin: 0;
+    color: var(--black);
+}
+
+#header-bar {
+    padding: 18px 10px;
+    color: var(--white);
+    background: rgb(75, 75, 75);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2 {
+    margin: 0;
+    font-size: 3rem;
+}
+
+.nav-btn {
+    background: inherit;
+    border: none;
+    color: var(--white);
+}
+
+.nav-bar {
+    display: none;
+    background: rgb(231, 231, 231);
+    color:rgb(37, 37, 37);
+    font-size: 1.5rem;
+}
+
+.display {
+    display: block;
+}
+
+.wrapper {
+    padding: 15px;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.list li {
+    padding: 7px;
+    border-radius: 5px;
+    display: flex;
+}
+
+.list i {
+    margin-right: 10px;
+}
+
+.list li:hover {
+    background:rgb(204, 204, 204);
+}
+
+.selected {
+    background: rgb(204, 204, 204);
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.9rem;
 }
 
 .cell {
-    border: 1px solid black;
+    border: 1px solid var(--black);
+    margin-top: 5px;
 }
