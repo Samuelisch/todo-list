@@ -19,6 +19,8 @@ View task comment / details / description
 
 //localStorage - stores all projects and in those projects, all todos
 
+import './style.css';
+
 //Factory function for tasks
 const CreateTask = (title = 'New task', description = '', due = 'Today', flag = '') => {
     //change title, description or date
