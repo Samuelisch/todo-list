@@ -45,9 +45,9 @@ const CreateTask = (title = 'New task', description = '', due = 'Today', flag = 
 
 //store tasks into an array - a list of tasks - project
 //create Project factory function
-const CreateProject = (title = 'New project') => {
+const CreateProject = (title = 'default') => {
     //initialise project array
-    let projectList = [];
+    let taskList = [];
 
     //function to set title
     function setTitle(title) {
@@ -56,13 +56,74 @@ const CreateProject = (title = 'New project') => {
 
     //adds tasks to current projectList
     function addTask(task) {
-        projectList.push(task);
+        taskList.push(task);
     };
 
-    return {title, setTitle, projectList, addTask};
+    return {title, setTitle, taskList, addTask};
 }
 
-const task1 = CreateTask('get groceries', 'description', 'tomorrow');
-const project1 = CreateProject('daily');
-project1.addTask(task1);
-console.log(project1.projectList);
+//tester for creation of tasks from webpage
+const body = document.querySelector('body');
+const form = document.createElement('form');
+const taskBox = document.createElement('input');
+taskBox.placeholder = 'Task';
+const descriptionBox = document.createElement('input');
+descriptionBox.placeholder = 'Description';
+const dueBox = document.createElement('input');
+dueBox.placeholder = 'Due date'
+const button = document.createElement('button');
+button.type = 'submit';
+button.textContent = 'Submit';
+button.addEventListener('click', clickHandler);
+
+form.appendChild(taskBox);
+form.appendChild(descriptionBox);
+form.appendChild(dueBox);
+form.appendChild(button);
+body.appendChild(form);
+
+//check if localStorage has items
+function hasStorage() {
+    return localStorage.getItem('default');
+}
+
+//initialise project for current page
+const defaultProject = CreateProject();
+//add stored tasks to project and display to html if exists
+if (hasStorage()) {
+    const project = JSON.parse(localStorage.default);
+    const len = project.taskList.length;
+    for (let i = 0; i < len; i++) {
+        defaultProject.addTask(project.taskList[i]);
+        addToHtml(project.taskList[i]);
+    }
+}
+let project = defaultProject; // flag for project selected
+
+function clickHandler(e) {
+    e.preventDefault();
+    //create task and add to project
+    const task = CreateTask(taskBox.value, descriptionBox.value, dueBox.value);
+    addToProject(task);
+    addToLocalStorage();
+    //create HTML elements and append to body
+    addToHtml(task);
+}
+
+function addToProject(task) {
+    project.addTask(task);
+    console.log(project.taskList);
+}
+
+function addToLocalStorage() {
+    localStorage.setItem(project.title, JSON.stringify(project));
+}
+
+function addToHtml(task) {
+    const cell = document.createElement('div');
+    cell.className = 'cell'
+    cell.innerHTML = `
+        Task: ${task.title}, Description: ${task.description}, Due: ${task.due}
+    `;
+    body.appendChild(cell);
+}
