@@ -1,6 +1,6 @@
 :root {
     --black: rgb(29, 29, 29);
-    --white: rgb(243, 243, 243);
+    --white: rgb(250, 250, 250);
 }
 
 html,
@@ -9,6 +9,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     color: var(--black);
+    background: rgb(235, 235, 235);
 }
 
 #header-bar {
@@ -33,9 +34,10 @@ h2 {
 
 .nav-bar {
     display: none;
-    background: rgb(231, 231, 231);
+    background: rgb(216, 216, 216);
     color:rgb(37, 37, 37);
     font-size: 1.5rem;
+    box-shadow: 0px 1px 2px rgb(121, 121, 121);
     /* prevent highlights */
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -84,9 +86,19 @@ h3 {
     font-size: 1.9rem;
 }
 
-.cell {
-    border: 1px solid var(--black);
-    margin-top: 5px;
+.content {
+    margin: 40px 20px;
+}
+
+.add-task-btn {
+    width: 100%;
+    font-size: 1.5rem;
+    display: block;
+    text-align: center;
+}
+
+.form {
+    display: none;
 }
 
 @media (min-width: 320px) {

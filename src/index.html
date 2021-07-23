@@ -8,5 +8,57 @@
         <script src="https://kit.fontawesome.com/54614d917d.js" crossorigin="anonymous"></script>
     </head>
     <body>
+        <header>
+            <div id="header-bar">
+                <h2>Taskanator</h2>
+                <button class="nav-btn"><i class="fas fa-bars fa-2x"></i></button>
+            </div>
+        </header>
+            <div class="nav-bar">
+                <div class="wrapper">
+                    <ul class="list">
+                        <li data-link="total" class="selection tab selected">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>All tasks</span>
+                        </li>
+                        <li data-link="today" class="selection tab">
+                            <i class="fas fa-calendar-day"></i>
+                            <span>Today</span>
+                        </li>
+                        <li data-link="week" class="selection tab">
+                            <i class="fas fa-calendar-week"></i>
+                            <span>This week</span>
+                        </li>
+                    </ul>
+                    <h3>Projects</h3>
+                    <ul class="list projects">
+                    </ul>
+                    <div class="selection add-project-btn">
+                            <i class="fas fa-plus fa"></i>
+                            <span>Add project</span>
+                    </div>
+                    <form class="form">
+                        <input placeholder="Project">
+                        <div>
+                            <button class="add-btn">Add project</button>
+                            <button class="cancel">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        <main class="content"></main>
+
+        <div class="add-task-btn selection">
+            <i class="fas fa-plus fa-lg"></i>
+            <span>Add task</span>
+        </div>
+        <form class="form">
+            <input placeholder="Task">
+            <div>
+                <button class="add-btn">Confirm</button>
+                <button class="cancel">Cancel</button>
+            </div>
+        </form>
     </body>
 </html>
