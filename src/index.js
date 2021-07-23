@@ -23,47 +23,119 @@ import './style.css';
 
 //create and load page outline and navbar
 const body = document.querySelector('body');
-const header = document.createElement('header');
-header.innerHTML = `
-    <div id="header-bar">
-        <h2>Taskanator</h2>
-        <button class="nav-btn"><i class="fas fa-bars fa-2x"></i></button>
-    </div>
-    <div class="nav-bar">
-        <div class="wrapper">
-            <ul class="list">
-                <li data-link="total">
-                    <i class="fas fa-globe-americas"></i>
-                    <span>All tasks</span>
-                </li>
-                <li data-link="today">
-                    <i class="fas fa-calendar-day"></i>
-                    <span>Today</span>
-                </li>
-                <li data-link="week">
-                    <i class="fas fa-calendar-week"></i>
-                    <span>This week</span>
-                </li>
-            </ul>
-            <h3>Projects</h3>
-            <ul class="list projects">
-            <!-- <i class="far fa-list-alt"></i> --> FOR FUTURE USE
-            </ul>
+//IIFE to load initial template for page
+(() => {
+    const header = document.createElement('header');
+    header.innerHTML = `
+        <div id="header-bar">
+            <h2>Taskanator</h2>
+            <button class="nav-btn"><i class="fas fa-bars fa-2x"></i></button>
         </div>
-    </div>
-`
+        <div class="nav-bar">
+            <div class="wrapper">
+                <ul class="list">
+                    <li data-link="total" class="selection tab selected">
+                        <i class="fas fa-globe-americas"></i>
+                        <span>All tasks</span>
+                    </li>
+                    <li data-link="today" class="selection tab">
+                        <i class="fas fa-calendar-day"></i>
+                        <span>Today</span>
+                    </li>
+                    <li data-link="week" class="selection tab">
+                        <i class="fas fa-calendar-week"></i>
+                        <span>This week</span>
+                    </li>
+                </ul>
+                <h3>Projects</h3>
+                <ul class="list projects">
+                </ul>
+                <div class="selection add-project-btn">
+                        <i class="fas fa-plus fa-lg"></i>
+                        <span>Add project</span>
+                </div>
+            </div>
+        </div>
+    `
 
-body.appendChild(header);
+    body.appendChild(header);
+})();
 
-const navBtn = document.querySelector('.nav-btn');
-const nav = document.querySelector('.nav-bar');
+function addNewProject(name) {
+    const projects = document.querySelector('.projects');
+    const projectTab = document.querySelectorAll('.project');
 
-function dropdownMenu() {
-    nav.classList.toggle('display');
+    //find out how many projects there are currently
+    const projectCount = () => {
+        return Array.from(projectTab).length;
+    }
+    //create new list element, set dataset link to project(count);
+    const newLink = document.createElement('li');
+    newLink.className = "selection project tab";
+    newLink.dataset.link = `${projectCount()}`;
+    //create icon
+    const icon = document.createElement('i');
+    icon.className = 'far fa-list-alt';
+    //create default project name
+    const projTitle = document.createElement('span');
+    projTitle.textContent = `Project ${projectCount() + 1}`;
+    
+    //append children to link
+    newLink.appendChild(icon);
+    newLink.appendChild(projTitle);
+
+    //append link to project
+    projects.appendChild(newLink);
+
+    //update site behaviour
+    addSiteBehaviour();
 }
 
-navBtn.addEventListener('click', dropdownMenu);
+//IIFE for eventlisteners for dropdown menu, and its behaviour
+function addSiteBehaviour() {
+    const navBtn = document.querySelector('.nav-btn');
+    const nav = document.querySelector('.nav-bar');
+    const listItems = document.querySelectorAll('.tab');
+    const childItems = document.querySelectorAll('.tab > *');
+    const addProj = document.querySelector('.add-project-btn');
 
+    function dropdownMenu() {
+        nav.classList.toggle('display');
+    }
+
+    function selectLink(e) {
+        let link = e.target
+        //if selected any child elements, revert to parent element
+        if (Array.from(childItems).includes(link)) {
+            link = link.parentElement;
+        }
+       //check if any links are currently selected
+       if (linkSelected()) {
+            if (linkSelected() == link) {
+                return;
+            }
+           linkSelected().classList.remove('selected');
+       }
+       link.classList.add('selected');
+    }
+
+    function linkSelected() {
+        //initialise output as false
+        let output = false;
+        listItems.forEach(item => {
+            if (item.classList.contains('selected')) {
+                //if item found, change output to item
+                output = item;
+            }
+        });
+        return output;
+    }
+
+    //event listeners for navBtn, clicks on menu
+    navBtn.addEventListener('click', dropdownMenu);
+    listItems.forEach(item => item.addEventListener('click', selectLink));
+    addProj.addEventListener('click', addNewProject);
+};
 
 //Factory function for tasks
 const CreateTask = (title = 'New task', due = 'Today', flag = '') => {
@@ -163,3 +235,5 @@ function addToHtml(task) {
     `;
     body.appendChild(cell);
 }
+
+addSiteBehaviour();
