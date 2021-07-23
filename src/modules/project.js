@@ -20,6 +20,7 @@ const CreateProject = (title='default') => {
 
 //ADD PROJECT
 function addNewProject(name) {
+    const project = CreateProject(name);
     const projects = document.querySelector('.projects');
     const projectTab = document.querySelectorAll('.project');
 

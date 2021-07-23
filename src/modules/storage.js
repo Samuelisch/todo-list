@@ -1,3 +1,7 @@
+function getItems() {
+    
+}
+
 //check if localStorage has items
 function hasStorage() {
     return localStorage.getItem('default');
