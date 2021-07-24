@@ -1,8 +1,7 @@
-import loadDefault from './modules/loadDefault.js';
-import project from './modules/project.js';
+import projectModule from './modules/project.js';
 import task from './modules/task.js';
 import storage from './modules/storage.js';
 import UI from './modules/UI.js';
 import './style.css';
 
-loadDefault.loadHomePageBehaviour();
+UI.staticPageBehaviour();

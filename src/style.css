@@ -48,10 +48,6 @@ h2 {
                         supported by Chrome, Edge, Opera and Firefox */
 }
 
-.display {
-    display: block;
-}
-
 .wrapper {
     padding: 15px;
 }
@@ -90,15 +86,24 @@ h3 {
     margin: 40px 20px;
 }
 
+.add-project-btn {
+    display: none;
+}
+
 .add-task-btn {
     width: 100%;
     font-size: 1.5rem;
-    display: block;
+    display: none;
     text-align: center;
 }
 
-.form {
+.project-form,
+.task-form {
     display: none;
+}
+
+.display {
+    display: block;
 }
 
 @media (min-width: 320px) {
