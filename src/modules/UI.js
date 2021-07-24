@@ -126,7 +126,7 @@ const addProjectLink = (projectName) => {
     //add event listener and update list of  and list of child items
     listItems = document.querySelectorAll('.tab');
     childItems = document.querySelectorAll('.tab > *');
-    
+
     newLink.addEventListener('click', pageFunctions.selectLink);
 
 }
@@ -136,22 +136,36 @@ const addTaskCell = (taskName) => {
     //create div element to wrap both task info and edit info
     const newTask = document.createElement('div');
     newTask.className = 'task';
+    
     //create div to hold all taskInfo in flexbox
     const taskInfo = document.createElement('div');
     taskInfo.className = 'info';
     //create icon element - styled to circle - to reflect priority of task
     const icon = document.createElement('div');
-    icon.className = 'priority-icon';
+    icon.className = 'icon';
+
+    //wrapper for title display and edit input box
+    const titleWrapper = document.createElement('div');
     //create span element for task title
     const taskTitle = document.createElement('span');
     taskTitle.className = 'task-name';
     taskTitle.textContent = taskName;
+    //title edit input
+    const titleEdit = document.createElement('input'); //create styling
+    titleEdit.className = 'name-edit';
+    titleEdit.value = taskName;
+    const saveBtn = document.createElement('button'); //create styling
+    saveBtn.type = 'button';
+    saveBtn.className = 'edit-save';
+
     //create div element to store date - to be change upon edit
     const taskDue = document.createElement('div');
     taskDue.className = 'date';
     taskDue.textContent = 'No date';
 
+
     //append elements to task div, then append task div to list div
+    //MAIN TASK CELL
     taskInfo.appendChild(icon);
     taskInfo.appendChild(taskTitle);
     taskInfo.appendChild(taskDue);
@@ -160,7 +174,8 @@ const addTaskCell = (taskName) => {
     //add to DOM
     tasks.appendChild(newTask);
 
-    //updatePageBehaviour / add own event listeners?
+    //add own event listeners?
+    //icon.addEventListener('click', completeTask);
 }
 
 const UI = {
