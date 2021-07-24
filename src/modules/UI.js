@@ -129,11 +129,39 @@ const addProjectLink = (projectName) => {
     projects.appendChild(newLink);
 
     //update site behaviour
-    updatePageBehaviour();
+    updatePageBehaviour(); //or add own event listeners?
 }
 
 const addTaskCell = (taskName) => {
-    const tasks = document.querySelector('.task');
+    const tasks = document.querySelector('.tasks');
+    //create div element to wrap both task info and edit info
+    const newTask = document.createElement('div');
+    newTask.className = 'task';
+    //create div to hold all taskInfo in flexbox
+    const taskInfo = document.createElement('div');
+    taskInfo.className = 'info';
+    //create icon element - styled to circle - to reflect priority of task
+    const icon = document.createElement('div');
+    icon.className = 'priority-icon';
+    //create span element for task title
+    const taskTitle = document.createElement('span');
+    taskTitle.className = 'task-name';
+    taskTitle.textContent = taskName;
+    //create div element to store date - to be change upon edit
+    const taskDue = document.createElement('div');
+    taskDue.className = 'date';
+    taskDue.textContent = 'No date';
+
+    //append elements to task div, then append task div to list div
+    taskInfo.appendChild(icon);
+    taskInfo.appendChild(taskTitle);
+    taskInfo.appendChild(taskDue);
+    newTask.appendChild(taskInfo);
+
+    //add to DOM
+    tasks.appendChild(newTask);
+
+    //updatePageBehaviour / add own event listeners?
 }
 
 const UI = {
