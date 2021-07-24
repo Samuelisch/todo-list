@@ -1,7 +1,7 @@
 import projectModule from './modules/project.js';
-import task from './modules/task.js';
-import storage from './modules/storage.js';
-import UI from './modules/UI.js';
+import taskModule from './modules/task.js';
+import storageModule from './modules/storage.js';
+import UIModule from './modules/UI.js';
 import './style.css';
 
-UI.staticPageBehaviour();
+UIModule.staticPageBehaviour();

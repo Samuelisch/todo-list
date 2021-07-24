@@ -1,4 +1,5 @@
-import projectModule from './project.js'
+import projectModule from './project.js';
+import taskModule from './task.js';
 
 //PAGE BEHAVIOUR
 const updatePageBehaviour = () => {
@@ -70,7 +71,11 @@ const staticPageBehaviour = () => {
             alert("Input required");
             return;
         }
+        //add DOM elements
+        addProjectLink(title);
+        //create instance of project from factory
         projectModule.addNewProject(title);
+        cancelForm(projectForm, addProjBtn);
     }
 
     function submitTaskForm() {
@@ -80,7 +85,11 @@ const staticPageBehaviour = () => {
             alert("Input required");
             return;
         }
-        console.log(title);
+        //add DOM elements
+        addTaskCell(title);
+        //create instance of task from factory
+        taskModule.addNewTask(title);
+        cancelForm(taskForm, addTaskBtn);
     }
 
     //initial load of default links
@@ -109,6 +118,7 @@ const addProjectLink = (projectName) => {
     icon.className = 'far fa-list-alt';
     //create default project name
     const projTitle = document.createElement('span');
+    projTitle.className = 'project-title';
     projTitle.textContent = projectName;
     
     //append children to link
@@ -119,12 +129,17 @@ const addProjectLink = (projectName) => {
     projects.appendChild(newLink);
 
     //update site behaviour
-    UI.updatePageBehaviour();
+    updatePageBehaviour();
+}
+
+const addTaskCell = (taskName) => {
+    const tasks = document.querySelector('.task');
 }
 
 const UI = {
     updatePageBehaviour,
     addProjectLink,
+    addTaskCell,
     staticPageBehaviour
 };
 

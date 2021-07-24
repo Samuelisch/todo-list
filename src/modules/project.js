@@ -1,5 +1,3 @@
-import UI from './UI';
-
 //FACTORY FUNCTION FOR PROJECTS
 const CreateProject = (title) => {
     //initialise project array
@@ -19,12 +17,10 @@ const CreateProject = (title) => {
 }
 
 //ADD PROJECT
-function addNewProject(name) {
+function addNewProject(projectName) {
     //create new instance of project
-    const newProject = CreateProject(name);
+    const newProject = CreateProject(projectName);
     console.log(newProject);
-    //add DOM elements through UI module
-    UI.addProjectLink(name);
 }
 
 const projectModule = {
