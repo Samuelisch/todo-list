@@ -1,4 +1,4 @@
-import UI from './UI.js';
+import UI from './UI';
 
 //FACTORY FUNCTION FOR PROJECTS
 const CreateProject = (title='default') => {
@@ -20,7 +20,7 @@ const CreateProject = (title='default') => {
 
 //ADD PROJECT
 function addNewProject(name) {
-    const project = CreateProject(name);
+    const newProject = CreateProject(name);
     const projects = document.querySelector('.projects');
     const projectTab = document.querySelectorAll('.project');
 
@@ -47,12 +47,12 @@ function addNewProject(name) {
     projects.appendChild(newLink);
 
     //update site behaviour
-    UI.addSiteBehaviour();
+    UI.updatePageBehaviour();
 }
 
-const project = {
+const projectModule = {
     CreateProject,
     addNewProject
 }
 
-export default project;
+export default projectModule;
