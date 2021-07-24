@@ -1,7 +1,7 @@
 import UI from './UI';
 
 //FACTORY FUNCTION FOR PROJECTS
-const CreateProject = (title='default') => {
+const CreateProject = (title) => {
     //initialise project array
     let taskList = [];
 
@@ -20,34 +20,19 @@ const CreateProject = (title='default') => {
 
 //ADD PROJECT
 function addNewProject(name) {
-    const newProject = CreateProject(name);
-    const projects = document.querySelector('.projects');
-    const projectTab = document.querySelectorAll('.project');
-
-    //find out how many projects there are currently
-    const projectCount = () => {
+    const projectCounter = () => {
+        const projectTab = document.querySelectorAll('.project');
+        //return how many projects there are currently
         return Array.from(projectTab).length;
     }
-    //create new list element, set dataset link to project(count);
-    const newLink = document.createElement('li');
-    newLink.className = "selection project tab";
-    newLink.dataset.link = `${projectCount()}`;
-    //create icon
-    const icon = document.createElement('i');
-    icon.className = 'far fa-list-alt';
-    //create default project name
-    const projTitle = document.createElement('span');
-    projTitle.textContent = `Project ${projectCount() + 1}`;
-    
-    //append children to link
-    newLink.appendChild(icon);
-    newLink.appendChild(projTitle);
-
-    //append link to project
-    projects.appendChild(newLink);
-
-    //update site behaviour
-    UI.updatePageBehaviour();
+    //if no name given, return default name of project + num of projects
+    if (!name) {
+        name = `Project ${projectCounter}`;
+    }
+    //create new instance of project
+    const newProject = CreateProject(name);
+    //add DOM elements through UI module
+    UI.addProjectLink(name);
 }
 
 const projectModule = {

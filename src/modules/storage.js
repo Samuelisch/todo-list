@@ -7,13 +7,13 @@ function hasStorage() {
     return localStorage.getItem('default');
 }
 
-function addToLocalStorage() {
+function addToStorage() {
     localStorage.setItem(project.title, JSON.stringify(project));
 }
 
 const storage = {
     hasStorage,
-    addToLocalStorage
+    addToStorage
 }
 
 export default storage;
