@@ -40,10 +40,47 @@ const updatePageBehaviour = () => {
 const staticPageBehaviour = () => {
     const navBtn = document.querySelector('.nav-btn');
     const nav = document.querySelector('.nav-bar');
-    const addProj = document.querySelector('.add-project-btn');
+    const projectForm = document.querySelector('.project-form');
+    const taskForm = document.querySelector('.task-form');
+    const addProjBtn = document.querySelector('.add-project-btn');
+    const addTaskBtn = document.querySelector('.add-task-btn');
+    const addProjBtnSubmit = document.querySelector('.project-submit-btn');
+    const addTaskBtnSubmit = document.querySelector('.task-submit-btn');
+    const projectBtnCancel = document.querySelector('.project-cancel-btn');
+    const taskBtnCancel = document.querySelector('.task-cancel-btn');
 
     function dropdownMenu() {
         nav.classList.toggle('display');
+    }
+
+    function toggleForm(form, formBtn) {
+        form.classList.toggle('display');
+        formBtn.classList.toggle('display');
+    }
+
+    function cancelForm(form, formBtn) {
+        form.reset();
+        toggleForm(form, formBtn);
+    }
+
+    function submitProjectForm() {
+        //get title of project from form
+        const title = document.querySelector('.project-form input').value;
+        if (!title) {
+            alert("Input required");
+            return;
+        }
+        projectModule.addNewProject(title);
+    }
+
+    function submitTaskForm() {
+        //get title of task from form
+        const title = document.querySelector('.task-form input').value;
+        if (!title) {
+            alert("Input required");
+            return;
+        }
+        console.log(title);
     }
 
     //initial load of default links
@@ -51,7 +88,13 @@ const staticPageBehaviour = () => {
 
     //event listeners for navBtn and add project btn
     navBtn.addEventListener('click', dropdownMenu);
-    addProj.addEventListener('click', projectModule.addNewProject);
+    //passes function to wait for event before calling toggleForms
+    addProjBtn.addEventListener('click', () => toggleForm(projectForm, addProjBtn));
+    addTaskBtn.addEventListener('click', () => toggleForm(taskForm, addTaskBtn));
+    projectBtnCancel.addEventListener('click', () => cancelForm(projectForm, addProjBtn));
+    taskBtnCancel.addEventListener('click', () => cancelForm(taskForm, addTaskBtn));
+    addProjBtnSubmit.addEventListener('click', submitProjectForm);
+    addTaskBtnSubmit.addEventListener('click', submitTaskForm);
 }
 
 const addProjectLink = (projectName) => {

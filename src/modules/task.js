@@ -1,5 +1,5 @@
 //FACTORY FUNCTION FOR TASKS
-const CreateTask = (title = 'New task', due = 'Today', flag = '') => {
+const CreateTask = (title, due, flag, project) => {
     //change title, flag or date
     function setTitle(title) {
         this.title = title;
@@ -17,7 +17,7 @@ const CreateTask = (title = 'New task', due = 'Today', flag = '') => {
 };
 
 function addToProject(task) {
-    project.addTask(task);
+    projectModule.addTask(task);
     console.log(project.taskList);
 }
 
