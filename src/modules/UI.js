@@ -2,54 +2,20 @@ import projectModule from './project.js';
 import taskModule from './task.js';
 
 //PAGE BEHAVIOUR
-const updatePageBehaviour = () => {
-    const listItems = document.querySelectorAll('.tab');
-    const childItems = document.querySelectorAll('.tab > *');
+const navBtn = document.querySelector('.nav-btn');
+const nav = document.querySelector('.nav-bar');
+const projectForm = document.querySelector('.project-form');
+const taskForm = document.querySelector('.task-form');
+const addProjBtn = document.querySelector('.add-project-btn');
+const addTaskBtn = document.querySelector('.add-task-btn');
+const addProjBtnSubmit = document.querySelector('.project-submit-btn');
+const addTaskBtnSubmit = document.querySelector('.task-submit-btn');
+const projectBtnCancel = document.querySelector('.project-cancel-btn');
+const taskBtnCancel = document.querySelector('.task-cancel-btn');
+let listItems = document.querySelectorAll('.tab');
+let childItems = document.querySelectorAll('.tab > *');
 
-    function selectLink(e) {
-        let link = e.target
-        //if selected any child elements, revert to parent element
-        if (Array.from(childItems).includes(link)) {
-            link = link.parentElement;
-        }
-    //check if any links are currently selected
-    if (linkSelected()) {
-            if (linkSelected() == link) {
-                return;
-            }
-        linkSelected().classList.remove('selected');
-    }
-    link.classList.add('selected');
-    }
-
-    function linkSelected() {
-        //initialise output as false
-        let output = false;
-        listItems.forEach(item => {
-            if (item.classList.contains('selected')) {
-                //if item found, change output to item
-                output = item;
-            }
-        });
-        return output;
-    }
-
-    //event listener for clicks on project tabs
-    listItems.forEach(item => item.addEventListener('click', selectLink));
-}
-
-const staticPageBehaviour = () => {
-    const navBtn = document.querySelector('.nav-btn');
-    const nav = document.querySelector('.nav-bar');
-    const projectForm = document.querySelector('.project-form');
-    const taskForm = document.querySelector('.task-form');
-    const addProjBtn = document.querySelector('.add-project-btn');
-    const addTaskBtn = document.querySelector('.add-task-btn');
-    const addProjBtnSubmit = document.querySelector('.project-submit-btn');
-    const addTaskBtnSubmit = document.querySelector('.task-submit-btn');
-    const projectBtnCancel = document.querySelector('.project-cancel-btn');
-    const taskBtnCancel = document.querySelector('.task-cancel-btn');
-
+const pageFunctions = (() => {
     function dropdownMenu() {
         nav.classList.toggle('display');
     }
@@ -92,8 +58,33 @@ const staticPageBehaviour = () => {
         cancelForm(taskForm, addTaskBtn);
     }
 
-    //initial load of default links
-    updatePageBehaviour();
+    function selectLink(e) {
+        let link = e.target
+        //if selected any child elements, revert to parent element
+        if (Array.from(childItems).includes(link)) {
+            link = link.parentElement;
+        }
+    //check if any links are currently selected
+    if (linkSelected()) {
+            if (linkSelected() == link) {
+                return;
+            }
+        linkSelected().classList.remove('selected');
+    }
+    link.classList.add('selected');
+    }
+
+    function linkSelected() {
+        //initialise output as false
+        let output = false;
+        listItems.forEach(item => {
+            if (item.classList.contains('selected')) {
+                //if item found, change output to item
+                output = item;
+            }
+        });
+        return output;
+    }
 
     //event listeners for navBtn and add project btn
     navBtn.addEventListener('click', dropdownMenu);
@@ -104,7 +95,11 @@ const staticPageBehaviour = () => {
     taskBtnCancel.addEventListener('click', () => cancelForm(taskForm, addTaskBtn));
     addProjBtnSubmit.addEventListener('click', submitProjectForm);
     addTaskBtnSubmit.addEventListener('click', submitTaskForm);
-}
+    //event listener for clicks on project tabs
+    listItems.forEach(item => item.addEventListener('click', selectLink));
+
+    return {selectLink, linkSelected};
+})();
 
 const addProjectLink = (projectName) => {
     const projects = document.querySelector('.projects');
@@ -128,8 +123,12 @@ const addProjectLink = (projectName) => {
     //append link to project
     projects.appendChild(newLink);
 
-    //update site behaviour
-    updatePageBehaviour(); //or add own event listeners?
+    //add event listener and update list of  and list of child items
+    listItems = document.querySelectorAll('.tab');
+    childItems = document.querySelectorAll('.tab > *');
+    
+    newLink.addEventListener('click', pageFunctions.selectLink);
+
 }
 
 const addTaskCell = (taskName) => {
@@ -165,10 +164,9 @@ const addTaskCell = (taskName) => {
 }
 
 const UI = {
-    updatePageBehaviour,
+    pageFunctions,
     addProjectLink,
     addTaskCell,
-    staticPageBehaviour
 };
 
 export default UI;
