@@ -145,7 +145,7 @@ const addTaskCell = (taskName) => {
     icon.className = 'icon';
 
     //wrapper for title display and edit input box
-    const titleWrapper = document.createElement('div');
+    const titleWrapper = document.createElement('div'); //wrap edit form and display title to this
     //create span element for task title
     const taskTitle = document.createElement('span');
     taskTitle.className = 'task-name';
@@ -159,6 +159,7 @@ const addTaskCell = (taskName) => {
     saveBtn.className = 'edit-save';
 
     //create div element to store date - to be change upon edit
+    //create edit form for this too, to select date
     const taskDue = document.createElement('div');
     taskDue.className = 'date';
     taskDue.textContent = 'No date';
