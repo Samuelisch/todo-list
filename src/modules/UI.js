@@ -92,19 +92,24 @@ const pageFunctions = (() => {
     return {selectLink, linkSelected};
 })();
 
-function toggleForm(element1, element2) {
-    element1.classList.toggle('display');
-    element2.classList.toggle('display');
+function toggleForm(...args) {
+    args.forEach(args => args.classList.toggle('display'));
 }
 
-function toggleFormFlex(element1, element2) {
-    console.log(element1.classList);
-    console.log(element2.classList);
+function toggleFormFlex(...args) {
+    args.forEach(args => args.classList.toggle('display-flex'));
 }
 
 function cancelForm(element1, element2) {
     element1.reset();
     toggleForm(element1, element2);
+}
+
+function formatDate(date) {
+    return date
+            .split('-')
+            .reverse()
+            .join('/');
 }
 
 const addProjectLink = (projectName) => {
@@ -137,6 +142,11 @@ const addProjectLink = (projectName) => {
 }
 
 const addTaskCell = (taskName) => {
+    function getDateToday() {
+        const date = new Date();
+        return formatDate(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
+    }
+
     const tasks = document.querySelector('.tasks');
     //create div element to wrap both task info and edit info
     const newTask = document.createElement('div');
@@ -160,7 +170,7 @@ const addTaskCell = (taskName) => {
     //create edit form for this too, to select date
     const taskDue = document.createElement('div');
     taskDue.className = 'date';
-    taskDue.textContent = 'No date';
+    taskDue.textContent = getDateToday()
 
     //append edit and delete icons to right side of date div.
     const sideIconsWrapper = document.createElement('div');
@@ -193,17 +203,18 @@ const addTaskCell = (taskName) => {
     editTitle.className = 'edit-task-title';
     const editDate = document.createElement('input');
     editDate.className = 'edit-task-due';
-    editDate.type = 'date';
+    editDate.type = 'text';
+    
     //button wrapper
     const confirmBtns = document.createElement('div');
     confirmBtns.className = 'confirm-edit-buttons';
     //buttons
     const confirmBtn = document.createElement('button');
-    confirmBtn.class = 'confirm-edit';
+    confirmBtn.className = 'confirm-edit';
     confirmBtn.type = 'button';
     confirmBtn.textContent = 'Save';
     const cancelBtn = document.createElement('button');
-    cancelBtn.class = 'cancel-edit';
+    cancelBtn.className = 'cancel-edit';
     cancelBtn.type = 'button';
     cancelBtn.textContent = 'Cancel';
 
@@ -222,20 +233,68 @@ const addTaskCell = (taskName) => {
     //add to DOM
     tasks.appendChild(newTask);
 
-    //event listener for edit icon
-    editIcon.addEventListener('click', () => editTask(newTask));
+    //event listeners for side icons
+    editIcon.addEventListener('click', () => editTask.displayEdit(newTask));
     deleteIcon.addEventListener('click', () => console.log('deleting this task'));
+
+    //event listeners for edit form
+    confirmBtn.addEventListener('click', () => editTask.submitEdit(newTask));
+    cancelBtn.addEventListener('click', () => editTask.resetEdit(newTask));
+    //eventListeners for formatting of date
+    editDate.addEventListener('focus', (event) => {
+        event.target.type = "date";
+    });
+    editDate.addEventListener('blur', (event) => {
+        event.target.type = "text";
+        if (!editDate.value) {
+            editDate.value = getDateToday();
+        } else {
+            let date = editDate.value;
+            editDate.value = formatDate(date);
+        }
+    });
 
     //icon.addEventListener('click', completeTask);
 }
 
-function editTask(task) {
-    //show edit form, display off for task info
-    const taskInfo = task.querySelector('.info-wrapper');
-    const taskForm = task.querySelector('.task-edit-form');
+const editTask = (() => {
+    function displayEdit(task) {
+        //show edit form, display off for task info
+        const taskInfo = task.querySelector('.info-wrapper');
+        const taskForm = task.querySelector('.task-edit-form');
+        const taskTitle = task.querySelector('.task-name');
+        const taskDue = task.querySelector('.date');
+        const editTitle = task.querySelector('.edit-task-title');
+        const editDue = task.querySelector('.edit-task-due');
 
-    toggleFormFlex(taskInfo, taskForm);
-}
+        editTitle.value = taskTitle.textContent;
+        editDue.value = taskDue.textContent;
+    
+        toggleFormFlex(taskInfo, taskForm);
+    }
+
+    function resetEdit(task) {
+        //reset form, toggle displayEdit
+        task.querySelector('.task-edit-form').reset();
+
+        displayEdit(task);
+    }
+
+    function submitEdit(task) {
+        const taskTitle = task.querySelector('.task-name');
+        const taskDue = task.querySelector('.date');
+        const editedTitle = task.querySelector('.edit-task-title');
+        const editedDue = task.querySelector('.edit-task-due');
+
+        //change task title and date according to form
+        taskTitle.textContent = editedTitle.value;
+        taskDue.textContent = formatDate(editedDue.value);
+
+        resetEdit(task);
+    }
+
+    return {displayEdit, resetEdit, submitEdit}
+})();
 
 const UI = {
     pageFunctions,
