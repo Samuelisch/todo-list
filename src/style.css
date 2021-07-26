@@ -126,9 +126,28 @@ h3 {
 }
 
 .side-icons-wrapper {
-    width: 35px;
     display: flex;
+    width: 30px;
     justify-content: space-between;
+}
+
+.edit-icon,
+.delete-icon {
+    display: none;
+    color: var(--grey);
+}
+
+.edit-icon:hover {
+    color: var(--black);
+}
+
+.delete-icon:hover {
+    color: rgb(190, 39, 39);
+}
+
+.task:hover .edit-icon,
+.task:hover .delete-icon {
+    display: block;
 }
 
 .add-task-btn {

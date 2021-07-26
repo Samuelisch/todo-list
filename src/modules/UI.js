@@ -1,4 +1,5 @@
 import projectModule from './project.js';
+import task from './task.js';
 import taskModule from './task.js';
 
 //PAGE BEHAVIOUR
@@ -179,20 +180,10 @@ const addTaskCell = (taskName) => {
     //add to DOM
     tasks.appendChild(newTask);
 
+    //event listener for side-icons, to show when cell hovered over
+
     //add event listeners for edit form
     //icon.addEventListener('click', completeTask);
-}
-
-function editTaskCell() {
-    function toggleDisplay(text, input) {
-        text.classList.toggle('display');
-    }
-
-    function editTitle(text, input) {
-        toggleDisplay(text, input)
-    }
-
-    return {editTitle};
 }
 
 const UI = {
