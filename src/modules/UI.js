@@ -128,7 +128,6 @@ const addProjectLink = (projectName) => {
     childItems = document.querySelectorAll('.tab > *');
 
     newLink.addEventListener('click', pageFunctions.selectLink);
-
 }
 
 const addTaskCell = (taskName) => {
@@ -136,47 +135,64 @@ const addTaskCell = (taskName) => {
     //create div element to wrap both task info and edit info
     const newTask = document.createElement('div');
     newTask.className = 'task';
+    newTask.dataset.num = 0; //dataset num to identify task instance in project - taskList array
     
     //create div to hold all taskInfo in flexbox
     const taskInfo = document.createElement('div');
-    taskInfo.className = 'info';
-    //create icon element - styled to circle - to reflect priority of task
-    const icon = document.createElement('div');
-    icon.className = 'icon';
+    taskInfo.className = 'info-wrapper';
 
-    //wrapper for title display and edit input box
-    const titleWrapper = document.createElement('div'); //wrap edit form and display title to this
+    //create icon element - styled to circle - to reflect priority of task
+    const completeIcon = document.createElement('div');
+    completeIcon.className = 'complete-icon';
+
     //create span element for task title
     const taskTitle = document.createElement('span');
     taskTitle.className = 'task-name';
     taskTitle.textContent = taskName;
-    //title edit input
-    const titleEdit = document.createElement('input'); //create styling
-    titleEdit.className = 'name-edit';
-    titleEdit.value = taskName;
-    const saveBtn = document.createElement('button'); //create styling
-    saveBtn.type = 'button';
-    saveBtn.className = 'edit-save';
 
-    //create div element to store date - to be change upon edit
+    //create div element to store date - to be changed upon edit
     //create edit form for this too, to select date
     const taskDue = document.createElement('div');
     taskDue.className = 'date';
     taskDue.textContent = 'No date';
 
+    //append edit and delete icons to right side of date div.
+    const sideIconsWrapper = document.createElement('div');
+    sideIconsWrapper.className = 'side-icons-wrapper'
+    const editIcon = document.createElement('span');
+    editIcon.className = 'edit-icon';
+    editIcon.innerHTML = '<i class="far fa-edit"></i>';
+    const deleteIcon = document.createElement('span');
+    deleteIcon.className = 'delete-icon';
+    deleteIcon.innerHTML = '<i class="far fa-trash-alt"></i>';
+    sideIconsWrapper.appendChild(editIcon);
+    sideIconsWrapper.appendChild(deleteIcon);
 
     //append elements to task div, then append task div to list div
     //MAIN TASK CELL
-    taskInfo.appendChild(icon);
+    taskInfo.appendChild(completeIcon);
     taskInfo.appendChild(taskTitle);
     taskInfo.appendChild(taskDue);
+    taskInfo.appendChild(sideIconsWrapper);
     newTask.appendChild(taskInfo);
 
     //add to DOM
     tasks.appendChild(newTask);
 
-    //add own event listeners?
+    //add event listeners for edit form
     //icon.addEventListener('click', completeTask);
+}
+
+function editTaskCell() {
+    function toggleDisplay(text, input) {
+        text.classList.toggle('display');
+    }
+
+    function editTitle(text, input) {
+        toggleDisplay(text, input)
+    }
+
+    return {editTitle};
 }
 
 const UI = {

@@ -83,6 +83,10 @@ h3 {
     font-size: 1.9rem;
 }
 
+.add-project-btn {
+    display: none;
+}
+
 .content {
     margin: 20px;
 }
@@ -92,7 +96,6 @@ h3 {
 }
 
 .task {
-    width: 85%;
     font-size: 1.3rem;
     color: var(--black);
     border: 1px solid var(--grey);
@@ -101,17 +104,17 @@ h3 {
     margin-top: 15px;
 }
 
-.info {
+.task:hover {
+    background: rgb(204, 204, 204);
+}
+
+.info-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.task:hover {
-    background: var(--white);
-}
-
-.icon {
+.complete-icon {
     width: 12px;
     height: 12px;
     border: 1px solid var(--grey);
@@ -122,8 +125,10 @@ h3 {
     width: 55%;
 }
 
-.add-project-btn {
-    display: none;
+.side-icons-wrapper {
+    width: 35px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .add-task-btn {
@@ -135,6 +140,10 @@ h3 {
 .project-form,
 .task-form {
     display: none;
+}
+
+.display-flex {
+    display: flex;
 }
 
 .display {
