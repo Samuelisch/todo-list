@@ -21,16 +21,6 @@ const pageFunctions = (() => {
         nav.classList.toggle('display');
     }
 
-    function toggleForm(form, formBtn) {
-        form.classList.toggle('display');
-        formBtn.classList.toggle('display');
-    }
-
-    function cancelForm(form, formBtn) {
-        form.reset();
-        toggleForm(form, formBtn);
-    }
-
     function submitProjectForm() {
         //get title of project from form
         const title = document.querySelector('.project-form input').value;
@@ -102,6 +92,21 @@ const pageFunctions = (() => {
     return {selectLink, linkSelected};
 })();
 
+function toggleForm(element1, element2) {
+    element1.classList.toggle('display');
+    element2.classList.toggle('display');
+}
+
+function toggleFormFlex(element1, element2) {
+    console.log(element1.classList);
+    console.log(element2.classList);
+}
+
+function cancelForm(element1, element2) {
+    element1.reset();
+    toggleForm(element1, element2);
+}
+
 const addProjectLink = (projectName) => {
     const projects = document.querySelector('.projects');
 
@@ -140,7 +145,7 @@ const addTaskCell = (taskName) => {
     
     //create div to hold all taskInfo in flexbox
     const taskInfo = document.createElement('div');
-    taskInfo.className = 'info-wrapper';
+    taskInfo.className = 'info-wrapper display-flex';
 
     //create icon element - styled to circle - to reflect priority of task
     const completeIcon = document.createElement('div');
@@ -177,19 +182,65 @@ const addTaskCell = (taskName) => {
     taskInfo.appendChild(sideIconsWrapper);
     newTask.appendChild(taskInfo);
 
+    //create task edit form
+    const taskEditForm = document.createElement('form');
+    taskEditForm.className = 'task-edit-form'; //to display flex
+    //wrapper for input elements
+    const editInputs = document.createElement('div');
+    editInputs.className = 'edit-inputs';
+    //input elements
+    const editTitle = document.createElement('input');
+    editTitle.className = 'edit-task-title';
+    const editDate = document.createElement('input');
+    editDate.className = 'edit-task-due';
+    editDate.type = 'date';
+    //button wrapper
+    const confirmBtns = document.createElement('div');
+    confirmBtns.className = 'confirm-edit-buttons';
+    //buttons
+    const confirmBtn = document.createElement('button');
+    confirmBtn.class = 'confirm-edit';
+    confirmBtn.type = 'button';
+    confirmBtn.textContent = 'Save';
+    const cancelBtn = document.createElement('button');
+    cancelBtn.class = 'cancel-edit';
+    cancelBtn.type = 'button';
+    cancelBtn.textContent = 'Cancel';
+
+    //append to form element
+    editInputs.appendChild(editTitle);
+    editInputs.appendChild(editDate);
+    confirmBtns.appendChild(confirmBtn);
+    confirmBtns.appendChild(cancelBtn);
+    taskEditForm.appendChild(editInputs);
+    taskEditForm.appendChild(confirmBtns);
+
+
+    //append task-edit-form to task element
+    newTask.appendChild(taskEditForm);
+
     //add to DOM
     tasks.appendChild(newTask);
 
-    //event listener for side-icons, to show when cell hovered over
+    //event listener for edit icon
+    editIcon.addEventListener('click', () => editTask(newTask));
+    deleteIcon.addEventListener('click', () => console.log('deleting this task'));
 
-    //add event listeners for edit form
     //icon.addEventListener('click', completeTask);
+}
+
+function editTask(task) {
+    //show edit form, display off for task info
+    const taskInfo = task.querySelector('.info-wrapper');
+    const taskForm = task.querySelector('.task-edit-form');
+
+    toggleFormFlex(taskInfo, taskForm);
 }
 
 const UI = {
     pageFunctions,
     addProjectLink,
-    addTaskCell,
+    addTaskCell
 };
 
 export default UI;

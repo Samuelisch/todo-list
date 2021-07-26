@@ -156,6 +156,29 @@ h3 {
     text-align: center;
 }
 
+.task-edit-form {
+    display: none;
+    height: 50px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.edit-inputs {
+    display: flex;
+    width: 80%;
+    max-width: 600px;
+    justify-content: space-around;
+}
+
+.edit-task-title {
+    width: 50%;
+}
+
+.edit-task-due {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .project-form,
 .task-form {
     display: none;
