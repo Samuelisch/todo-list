@@ -235,7 +235,7 @@ const addTaskCell = (taskName) => {
 
     //event listeners for side icons
     editIcon.addEventListener('click', () => editTask.displayEdit(newTask));
-    deleteIcon.addEventListener('click', () => console.log('deleting this task'));
+    deleteIcon.addEventListener('click', () => console.log('deleting this task')); //NEXT
 
     //event listeners for edit form
     confirmBtn.addEventListener('click', () => editTask.submitEdit(newTask));
@@ -254,7 +254,7 @@ const addTaskCell = (taskName) => {
         }
     });
 
-    //icon.addEventListener('click', completeTask);
+    //icon.addEventListener('click', completeTask); //NEXT
 }
 
 const editTask = (() => {

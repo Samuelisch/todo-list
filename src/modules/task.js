@@ -1,7 +1,7 @@
 import projectModule from './project.js';
 
 //FACTORY FUNCTION FOR TASKS
-const CreateTask = (title, due, flag, project) => {
+const CreateTask = (title, due, project, completed) => {
     //change title, flag or date
     function setTitle(title) {
         this.title = title;
@@ -11,11 +11,11 @@ const CreateTask = (title, due, flag, project) => {
         this.due = due;
     }
 
-    function setFlag(color) {
-        this.flag = color;
+    function setComplete(bool) {
+        this.completed = bool
     }
 
-    return {title, due, flag, project, setTitle, setDue, setFlag};
+    return {title, due, project, completed, setTitle, setDue, setFlag};
 };
 
 function addNewTask(taskName) {
