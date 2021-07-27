@@ -15,14 +15,14 @@ const CreateTask = (title, due, project, completed) => {
         this.completed = bool
     }
 
-    return {title, due, project, completed, setTitle, setDue, setFlag};
+    return {title, due, project, completed, setTitle, setDue, setComplete};
 };
 
 function addNewTask(taskName) {
     //new instance from task factory
     const newTask = CreateTask(taskName);
-    console.log(newTask);
-    //add to current project page?
+    //add to current project via projectModule.currProj
+    projectModule.currProj.addTask(newTask);
 }
 
 function addToProject(task) {

@@ -1,6 +1,6 @@
 import projectModule from './project.js';
-import task from './task.js';
 import taskModule from './task.js';
+import storageModule from './storage.js'
 
 //PAGE BEHAVIOUR
 const navBtn = document.querySelector('.nav-btn');
@@ -21,7 +21,8 @@ const pageFunctions = (() => {
         nav.classList.toggle('display');
     }
 
-    function submitProjectForm() {
+    function submitProjectForm(e) {
+        e.preventDefault();
         //get title of project from form
         const title = document.querySelector('.project-form input').value;
         if (!title) {
@@ -35,7 +36,8 @@ const pageFunctions = (() => {
         cancelForm(projectForm, addProjBtn);
     }
 
-    function submitTaskForm() {
+    function submitTaskForm(e) {
+        e.preventDefault();
         //get title of task from form
         const title = document.querySelector('.task-form input').value;
         if (!title) {
@@ -62,7 +64,10 @@ const pageFunctions = (() => {
             }
         linkSelected().classList.remove('selected');
     }
+    //switch to selected link
     link.classList.add('selected');
+    //change project currProj to selected link's datanum
+    projectModule.changeProject(link.dataset.num);
     }
 
     function linkSelected() {
@@ -112,13 +117,13 @@ function formatDate(date) {
             .join('/');
 }
 
-const addProjectLink = (projectName) => {
+const addProjectLink = (projectName, dataNum = storageModule.length()) => {
     const projects = document.querySelector('.projects');
 
     //create new list element, set dataset link to project(count);
     const newLink = document.createElement('li');
     newLink.className = "selection project tab";
-    newLink.dataset.link = projectName;
+    newLink.dataset.num = dataNum;
     //create icon
     const icon = document.createElement('i');
     icon.className = 'far fa-list-alt';
@@ -233,6 +238,9 @@ const addTaskCell = (taskName) => {
     //add to DOM
     tasks.appendChild(newTask);
 
+    //event listener for task completion
+    completeIcon.addEventListener('click', () => editTask.completeTask(newTask));
+
     //event listeners for side icons
     editIcon.addEventListener('click', () => editTask.displayEdit(newTask));
     deleteIcon.addEventListener('click', () => console.log('deleting this task')); //NEXT
@@ -253,11 +261,17 @@ const addTaskCell = (taskName) => {
             editDate.value = formatDate(date);
         }
     });
-
-    //icon.addEventListener('click', completeTask); //NEXT
 }
 
 const editTask = (() => {
+    function completeTask(task) {
+        const completeIcon = task.querySelector('.complete-icon');
+        completeIcon.style.background = 'rgba(81, 192, 81, 0.253)';
+        task.style.color = 'rgb(150, 150, 150)';
+        task.style.borderColor = 'rgb(150, 150, 150)';
+        task.style.textDecoration = 'line-through';
+    }
+
     function displayEdit(task) {
         //show edit form, display off for task info
         const taskInfo = task.querySelector('.info-wrapper');
@@ -293,7 +307,7 @@ const editTask = (() => {
         resetEdit(task);
     }
 
-    return {displayEdit, resetEdit, submitEdit}
+    return {displayEdit, resetEdit, submitEdit, completeTask}
 })();
 
 const UI = {
