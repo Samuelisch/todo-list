@@ -117,7 +117,7 @@ function formatDate(date) {
             .join('/');
 }
 
-const addProjectLink = (projectName, dataNum = storageModule.length()) => {
+const addProjectLink = (projectName, dataNum = storageModule.numOfProjects()) => {
     const projects = document.querySelector('.projects');
 
     //create new list element, set dataset link to project(count);
@@ -146,7 +146,7 @@ const addProjectLink = (projectName, dataNum = storageModule.length()) => {
     newLink.addEventListener('click', pageFunctions.selectLink);
 }
 
-const addTaskCell = (taskName) => {
+const addTaskCell = (taskName, dueDate, completed) => {
     function getDateToday() {
         const date = new Date();
         return formatDate(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
@@ -175,7 +175,7 @@ const addTaskCell = (taskName) => {
     //create edit form for this too, to select date
     const taskDue = document.createElement('div');
     taskDue.className = 'date';
-    taskDue.textContent = getDateToday()
+    taskDue.textContent = dueDate || getDateToday()
 
     //append edit and delete icons to right side of date div.
     const sideIconsWrapper = document.createElement('div');
@@ -239,7 +239,16 @@ const addTaskCell = (taskName) => {
     tasks.appendChild(newTask);
 
     //event listener for task completion
-    completeIcon.addEventListener('click', () => editTask.completeTask(newTask));
+    //check if task completed already
+    completeIcon.addEventListener('click', () => {
+        if (completed) {
+            completed = false;
+            editTask.uncompleteTask(newTask);
+        } else {
+            completed = true;
+            editTask.completeTask(newTask);
+        }
+    });
 
     //event listeners for side icons
     editIcon.addEventListener('click', () => editTask.displayEdit(newTask));
@@ -270,6 +279,14 @@ const editTask = (() => {
         task.style.color = 'rgb(150, 150, 150)';
         task.style.borderColor = 'rgb(150, 150, 150)';
         task.style.textDecoration = 'line-through';
+    }
+
+    function uncompleteTask(task) {
+        const completeIcon = task.querySelector('.complete-icon');
+        completeIcon.style.background = 'inherit';
+        task.style.color = 'var(--black)';
+        task.style.borderColor = 'var(--grey)';
+        task.style.textDecoration = 'none';
     }
 
     function displayEdit(task) {
@@ -307,7 +324,7 @@ const editTask = (() => {
         resetEdit(task);
     }
 
-    return {displayEdit, resetEdit, submitEdit, completeTask}
+    return {displayEdit, resetEdit, submitEdit, completeTask, uncompleteTask}
 })();
 
 const UI = {

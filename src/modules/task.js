@@ -1,7 +1,9 @@
 import projectModule from './project.js';
 
 //FACTORY FUNCTION FOR TASKS
-const CreateTask = (title, due, project, completed) => {
+const CreateTask = (title, due, completed) => {
+    let project;
+    let dataNum;
     //change title, flag or date
     function setTitle(title) {
         this.title = title;
@@ -15,14 +17,14 @@ const CreateTask = (title, due, project, completed) => {
         this.completed = bool
     }
 
-    return {title, due, project, completed, setTitle, setDue, setComplete};
+    return {title, due, completed, dataNum, setTitle, setDue, setComplete};
 };
 
 function addNewTask(taskName) {
     //new instance from task factory
     const newTask = CreateTask(taskName);
     //add to current project via projectModule.currProj
-    projectModule.currProj.addTask(newTask);
+    projectModule.addTask(newTask);
 }
 
 function addToProject(task) {

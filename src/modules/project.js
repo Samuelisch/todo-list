@@ -4,7 +4,6 @@ import UIModule from './UI.js'
 //FACTORY FUNCTION FOR PROJECTS
 const CreateProject = (title) => {
     //initialise project array
-    let taskList = [];
     let dataNum;
 
     //function to set title
@@ -12,45 +11,46 @@ const CreateProject = (title) => {
         this.title = title;
     };
 
-    //adds tasks to current projectList
-    function addTask(task) {
-        taskList.push(task);
-    };
-
     function setDataNum(num) {
         this.dataNum = num;
     }
 
-    return {title, setTitle, taskList, dataNum, addTask, setDataNum};
+    return {title, setTitle, dataNum, setDataNum};
 }
 
 //initial load of webpage - 
 let currProj;
+let projArray = [];
 
 //check if storage has first element
-if (storageModule.hasStorage('0')) {
-    currProj = storageModule.getItem(0);
+if (storageModule.hasStorage()) {
+    currProj = storageModule.getProject(0);
 } else { //else create own project and save to storage
     currProj = CreateProject('default');
     currProj.setDataNum(0);
-    storageModule.addProjToStorage(currProj);
 }
-console.log(localStorage);
+//save to localStorage under projects
+updateArray(currProj);
 
 { //check if there are existing projects in storage
-    if (storageModule.length() > 1) {
-        const len = storageModule.length()
+    if (storageModule.numOfProjects() > 1) {
+        const len = storageModule.numOfProjects()
         //go through all stored projects and add them to link
         for (let i = 1; i < len; i++) {
-            let proj = storageModule.getItem(i);
+            let proj = storageModule.getProject(i);
             UIModule.addProjectLink(proj.title, proj.dataNum);
         }
     }
 }
 
+function updateArray(proj) {
+    projArray.push(proj);
+    storageModule.addProjToStorage(projArray);
+}
+
 //switch projects to selected from UI
 function changeProject(dataNum) {
-    currProj = storageModule.getItem(dataNum);
+    currProj = storageModule.getProject(dataNum);
     console.log(`project changed to ${currProj.title}, dataNum: ${currProj.dataNum}`);
 }
 
@@ -58,15 +58,17 @@ function changeProject(dataNum) {
 function addNewProject(projectName) {
     //create new instance of project
     const newProject = CreateProject(projectName);
-    newProject.dataNum = storageModule.length();
-    storageModule.addProjToStorage(newProject);
+    newProject.dataNum = storageModule.numOfProjects();
+    updateArray(newProject);
+    console.log(projArray);
 }
 
 const projectModule = {
     CreateProject,
     addNewProject,
     currProj,
-    changeProject
+    projArray,
+    changeProject,
 }
 
 export default projectModule;

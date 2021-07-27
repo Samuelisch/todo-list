@@ -1,5 +1,5 @@
-function getItem(key) {
-    return JSON.parse(localStorage.getItem(key));
+function getProject(key) {
+    return JSON.parse(localStorage.getItem(0))[key];
 }
 
 //check if localStorage has items
@@ -7,23 +7,34 @@ function hasStorage() {
     return localStorage.length;
 }
 
-function addProjToStorage(project) {
-    localStorage.setItem(localStorage.length, JSON.stringify(project));
+function addProjToStorage(projectArray) {
+    localStorage.setItem(0, JSON.stringify(projectArray));
 }
 
-function addTaskToProjStorage(project, task) {
-    
+function numOfProjects() {
+    return JSON.parse(localStorage.getItem(0)).length;
 }
 
-function length() {
-    return localStorage.length;
+function getTask(key) {
+    return JSON.parse(localStorage.getItem(1))[key];
+}
+
+function addTaskToStorage(taskArray) {
+    localStorage.setItem(1, JSON.stringify(taskArray));
+}
+
+function numOfTasks() {
+    return JSON.parse(localStorage.getItem(1)).length;
 }
 
 const storage = {
-    getItem,
+    getProject,
     hasStorage,
     addProjToStorage,
-    length
+    numOfProjects,
+    getTask,
+    addTaskToStorage,
+    numOfTasks
 }
 
 export default storage;
