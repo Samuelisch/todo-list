@@ -51,8 +51,8 @@ const pageFunctions = (() => {
         cancelForm(taskForm, addTaskBtn);
     }
 
-    function selectLink(e) {
-        let link = e.target
+    function checkLink(e) {
+        let link = e.target;
         if (link == dayTab || link == weekTab) {
             console.log(link);
             return;
@@ -61,29 +61,29 @@ const pageFunctions = (() => {
             //ignore delete button element
             return;
         }
-    //check if any links are currently selected
-    if (linkSelected()) {
-            if (linkSelected() == link) {
-                return;
-            }
-        linkSelected().classList.remove('selected');
+        selectLink(link);
     }
-    //switch to selected link
-    link.classList.add('selected');
-    //change project currProj to selected link's datanum
-    projectModule.changeProject(link.dataset.num);
+
+    function selectLink(link) {
+        //check if any links are currently selected
+        if (linkSelected() == link) {
+            console.log('same link');
+            return;
+        }
+        removePreviousHighlight();
+        //switch to selected link
+        link.classList.add('selected');
+        //change project currProj to selected link's datanum
+        projectModule.changeProject(link.dataset.num);
     }
 
     function linkSelected() {
-        //initialise output as false
-        let output = false;
-        listItems.forEach(item => {
-            if (item.classList.contains('selected')) {
-                //if item found, change output to item
-                output = item;
-            }
-        });
-        return output;
+        return document.querySelector('.selected');
+    }
+
+    function removePreviousHighlight() {
+        const highlighted = document.querySelector('.selected');
+        highlighted.classList.remove('selected');
     }
 
     //event listeners for navBtn and add project btn
@@ -96,9 +96,9 @@ const pageFunctions = (() => {
     addProjBtnSubmit.addEventListener('click', submitProjectForm);
     addTaskBtnSubmit.addEventListener('click', submitTaskForm);
     //event listener for clicks on project tabs
-    listItems.forEach(item => item.addEventListener('click', selectLink));
+    listItems.forEach(item => item.addEventListener('click', checkLink));
 
-    return {selectLink, linkSelected};
+    return {checkLink, linkSelected};
 })();
 
 function toggleForm(...args) {
@@ -151,13 +151,36 @@ const addProjectLink = (projectName, dataNum = projectModule.projArray.length) =
     //append link to project
     projects.appendChild(newLink);
 
-    newLink.addEventListener('click', pageFunctions.selectLink);
+    newLink.addEventListener('click', pageFunctions.checkLink);
 
     deleteIcon.addEventListener('click', () => deleteProjectLink(newLink));
 }
 
+const removeProjectLink = (linkToRemove, num) => {
+    linkToRemove.remove();
+    //update projectArray
+    projectModule.deleteProj(num);
+}
+
+const updateProjectNums= (dataNum) => {
+    const remainingProjects = document.querySelectorAll("[data-num]");
+    //get array from remaining project nodes
+    let projectsArr = Array.from(remainingProjects);
+    //filter array to only include projects after deleted project
+    let projectsToUpdate = projectsArr.filter(project => project.dataset.num > dataNum);
+    for (let project of projectsToUpdate) {
+        //iterate through each project
+        //update their data-num
+        project.dataset.num -= 1;
+        //update projectArray and save to localStorage
+    }
+}
+
 const deleteProjectLink = (link) => {
-    console.log(link);
+    const dataNum = link.dataset.num;
+    //remove html element
+    removeProjectLink(link, dataNum);
+    updateProjectNums(dataNum);
 }
 
 const addTaskCell = (taskName, dueDate, completed) => {

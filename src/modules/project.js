@@ -51,9 +51,21 @@ function getMoreProjects() { //check if there are existing projects in storage
     }
 }
 
-function deleteProj(dataNum) {
-    //identify project from projArray using dataNum to match position in array
-    //delete that project, and update projects after that - change dataNums to one number lower
+function deleteProj(num) {
+    //split array into two, removing affecting element
+    let firstHalfArray = projArray.slice(0, num);
+    let secondHalfArray = projArray.slice(parseInt(num) + 1);
+    //update dataNum of remaining tabs
+    secondHalfArray.forEach(e => e.dataNum -= 1);
+    
+    //assign array back to original projArray
+    let tempArray = firstHalfArray.concat(secondHalfArray);
+    updateArray(tempArray);
+}
+
+function updateArray(arr) {
+    projArray = arr;
+    saveArray();
 }
 
 
