@@ -32,7 +32,16 @@ if (storageModule.hasTasks()) {
 function toggleComplete(num) {
     //set task completed to opposite of itself, identified with dataNum from UIModule
     taskArray[num].complete = !taskArray[num].complete;
-    console.log(taskArray[num]);
+    
+    saveArray();
+}
+
+function updateTaskInfo(num, newTitle, newDue) {
+    const taskToBeEdited = taskArray[num];
+    taskToBeEdited.title = newTitle;
+    taskToBeEdited.due = newDue;
+
+    saveArray();
 }
 
 function setCurrentTasks(project) {
@@ -71,12 +80,33 @@ function addNewTask(taskName) {
     addToArray(newTask);
 }
 
+function deleteTask(num) {
+    //split array into two, removing affecting element
+    let firstHalfArray = taskArray.slice(0, num);
+    let secondHalfArray = taskArray.slice(parseInt(num) + 1);
+    //update dataNum of remaining tabs
+    secondHalfArray.forEach(e => e.dataNum -= 1);
+    
+    //assign array back to original projArray
+    let tempArray = firstHalfArray.concat(secondHalfArray);
+    updateArray(tempArray);
+}
+
+function updateArray(arr) {
+    taskArray = arr;
+    saveArray();
+    //reload all tasks to current project selected
+    setCurrentTasks(projectModule.currentProjectSelected());
+}
+
 const task = {
     CreateTask,
     addNewTask,
     setCurrentTasks,
     numOfTasks,
-    toggleComplete
+    toggleComplete,
+    updateTaskInfo,
+    deleteTask
 }
 
 export default task;

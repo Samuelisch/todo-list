@@ -333,7 +333,6 @@ const addTaskCell = (taskName, dueDate, completed, dataNum = taskModule.numOfTas
 
 const editTask = (() => {
     function completeTask(task) {
-
         const completeIcon = task.querySelector('.complete-icon');
         completeIcon.style.background = 'rgba(81, 192, 81, 0.253)';
         task.style.color = 'rgb(150, 150, 150)';
@@ -377,6 +376,9 @@ const editTask = (() => {
         const editedTitle = task.querySelector('.edit-task-title');
         const editedDue = task.querySelector('.edit-task-due');
 
+        //update task instance in taskModule
+        taskModule.updateTaskInfo(task.dataset.num, editedTitle.value, editedDue.value);
+
         //change task title and date according to form
         taskTitle.textContent = editedTitle.value;
         taskDue.textContent = formatDate(editedDue.value);
@@ -385,7 +387,19 @@ const editTask = (() => {
     }
 
     function deleteTask(task) {
+        //have to clear tasks and recreate all instances again, as dataNum is spread out
+        clearTasks();
+        //remove instance and reset list
+        removeTaskInstance(task);
+    }
 
+    function removeTaskInstance(task) {
+        //remove from task array
+        taskModule.deleteTask(task.dataset.num);
+    }
+
+    function clearTasks() {
+        document.querySelector('.tasks').innerHTML = '';
     }
 
     return {displayEdit, resetEdit, submitEdit, completeTask, uncompleteTask, deleteTask}
