@@ -57,11 +57,26 @@ const pageFunctions = (() => {
 
     function checkLink(e) {
         let link = e.target;
-        //if day or week tabs selected
-        if (link == dayTab) {
+        //check if same link as selected
+        if (sameLink(link)) {
+            console.log('same link');
             return;
         }
-        if (link == weekTab) {
+
+        //if day or week tabs selected
+        if (link == dayTab || link == weekTab) {
+            removePreviousHighlight();
+            clearContent();
+            link.classList.add('selected');
+            if (link == dayTab) {
+                projectModule.changeProject(1);
+                //get tasks that coincide with date today
+                taskModule.showTasksToday(getDateToday());
+            } else {
+                projectModule.changeProject(2);
+                //get tasks that coincide with 7 days ahead, including today
+                taskModule.showWeekTasks(getWeek());
+            }
             return;
         }
         if (link.classList.contains('fa-trash-alt')) {
@@ -72,11 +87,6 @@ const pageFunctions = (() => {
     }
 
     function selectLink(link) {
-        //check if any links are currently selected
-        if (linkSelected() == link) {
-            console.log('same link');
-            return;
-        }
         removePreviousHighlight();
         //switch to selected link
         link.classList.add('selected');
@@ -86,6 +96,10 @@ const pageFunctions = (() => {
         clearContent();
         //update content with currProj's tasks
         updateContent();
+    }
+
+    function sameLink(link) {
+        return (linkSelected() == link);
     }
 
     function linkSelected() {
@@ -133,6 +147,29 @@ function toggleFormFlex(...args) {
 function cancelForm(element1, element2) {
     element1.reset();
     toggleForm(element1, element2);
+}
+
+function getDateToday() {
+    const date = new Date();
+    return formatDate(`${date.getFullYear()}-${fillSingleNum(date.getMonth() + 1)}-${fillSingleNum(date.getDate())}`);
+}
+
+function getWeek() {
+    let result = [];
+    for (let i = 0; i < 7; i++) {
+        let d = new Date();
+        d.setDate(d.getDate() + i);
+        result.push(formatDate(`${d.getFullYear()}-${fillSingleNum(d.getMonth() + 1)}-${fillSingleNum(d.getDate())}`) )
+    }
+
+    return result;
+}
+
+function fillSingleNum(num) {
+    if (num < 10) {
+        return `0${num}`
+    }
+    return num;
 }
 
 function formatDate(date) {
@@ -206,10 +243,6 @@ const deleteProjectLink = (link) => {
 }
 
 const addTaskCell = (taskName, dueDate, completed, dataNum = taskModule.numOfTasks()) => {
-    function getDateToday() {
-        const date = new Date();
-        return formatDate(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
-    }
 
     const tasks = document.querySelector('.tasks');
     //create div element to wrap both task info and edit info
@@ -294,7 +327,6 @@ const addTaskCell = (taskName, dueDate, completed, dataNum = taskModule.numOfTas
     confirmBtns.appendChild(cancelBtn);
     taskEditForm.appendChild(editInputs);
     taskEditForm.appendChild(confirmBtns);
-
 
     //append task-edit-form to task element
     newTask.appendChild(taskEditForm);
@@ -415,7 +447,8 @@ const editTask = (() => {
 
 const UI = {
     addProjectLink,
-    addTaskCell
+    addTaskCell,
+    getDateToday
 };
 
 export default UI;

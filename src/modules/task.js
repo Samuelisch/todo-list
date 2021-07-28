@@ -44,6 +44,18 @@ function updateTaskInfo(num, newTitle, newDue) {
     saveArray();
 }
 
+function showTasksToday(date) {
+    currentProjTasks = taskArray.filter(task => task.due == date)
+    //show filtered array
+    showCurrentTasks();
+}
+
+function showWeekTasks(dateRange) {
+    for (let date of dateRange) {
+        console.log(date);
+    }
+}
+
 function setCurrentTasks(project) {
     currentProjTasks = taskArray.filter(task => task.project == project.title);
     showCurrentTasks();
@@ -73,6 +85,7 @@ function addNewTask(taskName) {
     const newTask = CreateTask(taskName);
     //update dataNum
     newTask.dataNum = taskArray.length;
+    newTask.due = UIModule.getDateToday();
     //update linking project
     const projectSelected = projectModule.currentProjectSelected();
     newTask.project = projectSelected.title;
@@ -106,7 +119,9 @@ const task = {
     numOfTasks,
     toggleComplete,
     updateTaskInfo,
-    deleteTask
+    deleteTask,
+    showTasksToday,
+    showWeekTasks
 }
 
 export default task;

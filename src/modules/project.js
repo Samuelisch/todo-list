@@ -35,15 +35,23 @@ if (storageModule.hasProjects()) {
     currProj.setDataNum(0);
     //save to localStorage under projects
     addToArray(currProj);
+
+    const dayProj = CreateProject('today');
+    dayProj.setDataNum(1);
+    addToArray(dayProj);
+
+    const weekProj = CreateProject('this week');
+    weekProj.setDataNum(2);
+    addToArray(weekProj);
 }
 
 
 function showProjects() { //check if there are existing projects in storage
-    if (projArray.length > 1) {
+    if (projArray.length > 3) {
         console.log("there's more projects! getting them..")
         const len = projArray.length;
         //go through all stored projects and add them to link
-        for (let i = 1; i < len; i++) {
+        for (let i = 3; i < len; i++) {
             let proj = projArray[i];
             console.log(`loaded: datanum ${proj.dataNum}, title ${proj.title}`);
             UIModule.addProjectLink(proj.title, proj.dataNum);
