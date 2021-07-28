@@ -1,5 +1,5 @@
-import projectModule from './project.js';
 import taskModule from './task.js';
+import projectModule from './project.js';
 
 //PAGE BEHAVIOUR
 const navBtn = document.querySelector('.nav-btn');
@@ -202,7 +202,7 @@ const deleteProjectLink = (link) => {
     updateProjectNums(dataNum);
 }
 
-const addTaskCell = (taskName, dueDate, completed) => {
+const addTaskCell = (taskName, dueDate, completed, dataNum = taskModule.numOfTasks()) => {
     function getDateToday() {
         const date = new Date();
         return formatDate(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
@@ -212,7 +212,7 @@ const addTaskCell = (taskName, dueDate, completed) => {
     //create div element to wrap both task info and edit info
     const newTask = document.createElement('div');
     newTask.className = 'task';
-    newTask.dataset.num = 0; //dataset num to identify task instance in project - taskList array
+    newTask.dataset.num = dataNum; //dataset num to identify task instance in project - taskList array
     
     //create div to hold all taskInfo in flexbox
     const taskInfo = document.createElement('div');
@@ -295,8 +295,11 @@ const addTaskCell = (taskName, dueDate, completed) => {
     tasks.appendChild(newTask);
 
     //event listener for task completion
-    //check if task completed already
     completeIcon.addEventListener('click', () => {
+        //change task instance in taskModule
+        taskModule.toggleComplete(newTask.dataset.num);
+
+        //check if task completed already
         if (completed) {
             completed = false;
             editTask.uncompleteTask(newTask);
@@ -308,7 +311,7 @@ const addTaskCell = (taskName, dueDate, completed) => {
 
     //event listeners for side icons
     editIcon.addEventListener('click', () => editTask.displayEdit(newTask));
-    deleteIcon.addEventListener('click', () => console.log('deleting this task')); //NEXT
+    deleteIcon.addEventListener('click', () => editTask.deleteTask(newTask));
 
     //event listeners for edit form
     confirmBtn.addEventListener('click', () => editTask.submitEdit(newTask));
@@ -330,6 +333,7 @@ const addTaskCell = (taskName, dueDate, completed) => {
 
 const editTask = (() => {
     function completeTask(task) {
+
         const completeIcon = task.querySelector('.complete-icon');
         completeIcon.style.background = 'rgba(81, 192, 81, 0.253)';
         task.style.color = 'rgb(150, 150, 150)';
@@ -380,11 +384,14 @@ const editTask = (() => {
         resetEdit(task);
     }
 
-    return {displayEdit, resetEdit, submitEdit, completeTask, uncompleteTask}
+    function deleteTask(task) {
+
+    }
+
+    return {displayEdit, resetEdit, submitEdit, completeTask, uncompleteTask, deleteTask}
 })();
 
 const UI = {
-    pageFunctions,
     addProjectLink,
     addTaskCell
 };

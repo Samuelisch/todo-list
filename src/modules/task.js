@@ -29,13 +29,23 @@ if (storageModule.hasTasks()) {
     setCurrentTasks(projectModule.currentProjectSelected());
 }
 
+function toggleComplete(num) {
+    //set task completed to opposite of itself, identified with dataNum from UIModule
+    taskArray[num].complete = !taskArray[num].complete;
+    console.log(taskArray[num]);
+}
+
 function setCurrentTasks(project) {
     currentProjTasks = taskArray.filter(task => task.project == project.title);
     showCurrentTasks();
 }
 
+function numOfTasks() {
+    return taskArray.length;
+}
+
 function showCurrentTasks() {
-    currentProjTasks.forEach(task => UIModule.addTaskCell(task.title, task.due, task.completed));
+    currentProjTasks.forEach(task => UIModule.addTaskCell(task.title, task.due, task.completed, task.dataNum));
 }
 
 function addToArray(task) {
@@ -52,6 +62,8 @@ function saveArray() {
 function addNewTask(taskName) {
     //new instance from task factory
     const newTask = CreateTask(taskName);
+    //update dataNum
+    newTask.dataNum = taskArray.length;
     //update linking project
     const projectSelected = projectModule.currentProjectSelected();
     newTask.project = projectSelected.title;
@@ -62,7 +74,9 @@ function addNewTask(taskName) {
 const task = {
     CreateTask,
     addNewTask,
-    setCurrentTasks
+    setCurrentTasks,
+    numOfTasks,
+    toggleComplete
 }
 
 export default task;
