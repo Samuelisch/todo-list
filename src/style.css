@@ -91,6 +91,14 @@ h3 {
     justify-content: space-between;
 }
 
+.tab > * {
+    pointer-events: none;
+}
+
+.project-delete {
+    pointer-events: all;
+}
+
 .project-delete {
     display: none;
 }

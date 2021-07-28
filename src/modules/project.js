@@ -45,7 +45,7 @@ function getMoreProjects() { //check if there are existing projects in storage
         //go through all stored projects and add them to link
         for (let i = 1; i < len; i++) {
             let proj = projArray[i];
-            console.log(proj.dataNum, proj.title);
+            console.log(`loaded: datanum ${proj.dataNum}, title ${proj.title}`);
             UIModule.addProjectLink(proj.title, proj.dataNum);
         }
     }

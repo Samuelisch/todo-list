@@ -1,6 +1,5 @@
 import projectModule from './project.js';
 import taskModule from './task.js';
-import storageModule from './storage.js'
 
 //PAGE BEHAVIOUR
 const navBtn = document.querySelector('.nav-btn');
@@ -14,7 +13,8 @@ const addTaskBtnSubmit = document.querySelector('.task-submit-btn');
 const projectBtnCancel = document.querySelector('.project-cancel-btn');
 const taskBtnCancel = document.querySelector('.task-cancel-btn');
 let listItems = document.querySelectorAll('.tab');
-let childItems = document.querySelectorAll('.tab > *');
+const dayTab = document.querySelector('.day');
+const weekTab = document.querySelector('.week');
 
 const pageFunctions = (() => {
     function dropdownMenu() {
@@ -53,9 +53,13 @@ const pageFunctions = (() => {
 
     function selectLink(e) {
         let link = e.target
-        //if selected any child elements, revert to parent element
-        if (Array.from(childItems).includes(link)) {
-            link = link.parentElement;
+        if (link == dayTab || link == weekTab) {
+            console.log(link);
+            return;
+        }
+        if (link.classList.contains('fa-trash-alt')) {
+            //ignore delete button element
+            return;
         }
     //check if any links are currently selected
     if (linkSelected()) {
@@ -126,6 +130,7 @@ const addProjectLink = (projectName, dataNum = projectModule.projArray.length) =
     newLink.dataset.num = dataNum;
     //create icon
     const leftWrapper = document.createElement('div');
+    leftWrapper.className = 'project-info'
     const icon = document.createElement('i');
     icon.className = 'far fa-list-alt';
     //create default project name
@@ -146,11 +151,13 @@ const addProjectLink = (projectName, dataNum = projectModule.projArray.length) =
     //append link to project
     projects.appendChild(newLink);
 
-    //add event listener and update list of  and list of child items
-    listItems = document.querySelectorAll('.tab');
-    childItems = document.querySelectorAll('.tab > *');
-
     newLink.addEventListener('click', pageFunctions.selectLink);
+
+    deleteIcon.addEventListener('click', () => deleteProjectLink(newLink));
+}
+
+const deleteProjectLink = (link) => {
+    console.log(link);
 }
 
 const addTaskCell = (taskName, dueDate, completed) => {

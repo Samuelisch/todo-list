@@ -16,6 +16,8 @@ const CreateTask = (title, due, completed) => {
     return {title, due, project, completed, dataNum, setTitle, setDue};
 };
 
+let taskArray = [];
+
 function addNewTask(taskName) {
     //new instance from task factory
     const newTask = CreateTask(taskName);
@@ -31,7 +33,8 @@ function addToProject(task) {
 const task = {
     addToProject,
     CreateTask,
-    addNewTask
+    addNewTask,
+    taskArray
 }
 
 export default task;
