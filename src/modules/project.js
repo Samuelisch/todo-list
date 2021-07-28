@@ -23,22 +23,22 @@ let currProj;
 let projArray = [];
 
 //check if storage has first element
-if (storageModule.hasStorage()) {
-    console.log('default project in storage exist, getting default..')
+if (storageModule.hasProjects()) {
+    console.log('default project in storage exists, getting default..')
     projArray = storageModule.getProjects();
     currProj = projArray[0];
     //get more if storage exists
-    getMoreProjects();
+    showProjects();
 } else { //else create own project and save to storage
     console.log('no storage exists, creating new and saving..')
-    currProj = CreateProject('default');
+    currProj = CreateProject('all tasks');
     currProj.setDataNum(0);
     //save to localStorage under projects
     addToArray(currProj);
 }
 
 
-function getMoreProjects() { //check if there are existing projects in storage
+function showProjects() { //check if there are existing projects in storage
     if (projArray.length > 1) {
         console.log("there's more projects! getting them..")
         const len = projArray.length;
@@ -85,6 +85,11 @@ function changeProject(dataNum) {
     console.log(`project changed to ${currProj.title}, dataNum: ${currProj.dataNum}`);
 }
 
+function projectExists(projectName) {
+    console.log(projArray.map(project => project.title))
+    return (projArray.map(project => project.title).includes(projectName));
+}
+
 //ADD PROJECT / save to storage
 function addNewProject(projectName) {
     //create new instance of project
@@ -98,6 +103,7 @@ const projectModule = {
     addNewProject,
     currProj,
     projArray,
+    projectExists,
     changeProject,
     deleteProj
 }

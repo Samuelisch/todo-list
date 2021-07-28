@@ -29,6 +29,11 @@ const pageFunctions = (() => {
             alert("Input required");
             return;
         }
+        console.log(projectModule.projectExists());
+        if (projectModule.projectExists(title)) {
+            alert("Project already exists!")
+            return;
+        }
         //add DOM elements
         addProjectLink(title);
         //create instance of project from factory
@@ -83,6 +88,7 @@ const pageFunctions = (() => {
 
     function removePreviousHighlight() {
         const highlighted = document.querySelector('.selected');
+        if (!highlighted) return;
         highlighted.classList.remove('selected');
     }
 

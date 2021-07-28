@@ -1,4 +1,5 @@
 import projectModule from './project.js';
+import storageModule from './storage.js';
 
 //FACTORY FUNCTION FOR TASKS
 const CreateTask = (title, due, completed) => {
@@ -18,20 +19,29 @@ const CreateTask = (title, due, completed) => {
 
 let taskArray = [];
 
+//check if storage has tasks
+if (storageModule.hasTasks()) {
+    console.log('tasks in storage exist, getting tasks..')
+    taskArray = storageModule.getTasks();
+    //add to currProjArr
+    currentTasks();
+}
+
+function currentTasks() {
+    const project = projectModule.currProj;
+    
+}
+
 function addNewTask(taskName) {
     //new instance from task factory
     const newTask = CreateTask(taskName);
-    //add to current project via projectModule.currProj
-    projectModule.addTask(newTask);
-}
-
-function addToProject(task) {
-    projectModule.addTask(task);
-    console.log(project.taskList);
+    //update linking project
+    newTask.project = projectModule.currProj.title;
+    //add to task array
+    taskArray.push(newTask);
 }
 
 const task = {
-    addToProject,
     CreateTask,
     addNewTask,
     taskArray

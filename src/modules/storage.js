@@ -3,8 +3,12 @@ function getProjects() {
 }
 
 //check if localStorage has items
-function hasStorage() {
-    return localStorage.length;
+function hasProjects() {
+    return localStorage[0];
+}
+
+function hasTasks() {
+    return localStorage[1];
 }
 
 function addProjToStorage(projectArray) {
@@ -21,9 +25,10 @@ function addTaskToStorage(taskArray) {
 
 const storage = {
     getProjects,
-    hasStorage,
+    hasProjects,
     addProjToStorage,
     getTasks,
+    hasTasks,
     addTaskToStorage,
 }
 
