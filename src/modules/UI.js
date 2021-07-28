@@ -29,7 +29,6 @@ const pageFunctions = (() => {
             alert("Input required");
             return;
         }
-        console.log(projectModule.projectExists());
         if (projectModule.projectExists(title)) {
             alert("Project already exists!")
             return;
@@ -80,6 +79,10 @@ const pageFunctions = (() => {
         link.classList.add('selected');
         //change project currProj to selected link's datanum
         projectModule.changeProject(link.dataset.num);
+        //clear previous content of project
+        clearContent();
+        //update content with currProj's tasks
+        updateContent();
     }
 
     function linkSelected() {
@@ -107,6 +110,15 @@ const pageFunctions = (() => {
     return {checkLink, linkSelected};
 })();
 
+function clearContent() {
+    const tasks = document.querySelector('.tasks');
+    tasks.innerHTML = '';
+}
+
+function updateContent() {
+    taskModule.setCurrentTasks(projectModule.currentProjectSelected());
+}
+
 function toggleForm(...args) {
     args.forEach(args => args.classList.toggle('display'));
 }
@@ -127,7 +139,7 @@ function formatDate(date) {
             .join('/');
 }
 
-const addProjectLink = (projectName, dataNum = projectModule.projArray.length) => {
+const addProjectLink = (projectName, dataNum = projectModule.numOfProjects()) => {
     const projects = document.querySelector('.projects');
 
     //create new list element, set dataset link to project(count);
@@ -164,6 +176,7 @@ const addProjectLink = (projectName, dataNum = projectModule.projArray.length) =
 
 const removeProjectLink = (linkToRemove, num) => {
     linkToRemove.remove();
+    clearContent();
     //update projectArray
     projectModule.deleteProj(num);
 }

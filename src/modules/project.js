@@ -31,7 +31,7 @@ if (storageModule.hasProjects()) {
     showProjects();
 } else { //else create own project and save to storage
     console.log('no storage exists, creating new and saving..')
-    currProj = CreateProject('all tasks');
+    currProj = CreateProject('inbox');
     currProj.setDataNum(0);
     //save to localStorage under projects
     addToArray(currProj);
@@ -79,6 +79,11 @@ function saveArray() {
     console.log('saving proj array to storage..')
     storageModule.addProjToStorage(projArray);
 }
+
+function currentProjectSelected() {
+    return currProj;
+}
+
 //switch projects to selected from UI
 function changeProject(dataNum) {
     currProj = projArray[dataNum];
@@ -86,7 +91,6 @@ function changeProject(dataNum) {
 }
 
 function projectExists(projectName) {
-    console.log(projArray.map(project => project.title))
     return (projArray.map(project => project.title).includes(projectName));
 }
 
@@ -98,14 +102,18 @@ function addNewProject(projectName) {
     addToArray(newProject);
 }
 
+function numOfProjects() {
+    return projArray.length
+}
+
 const projectModule = {
     CreateProject,
     addNewProject,
-    currProj,
-    projArray,
     projectExists,
     changeProject,
-    deleteProj
+    deleteProj,
+    numOfProjects,
+    currentProjectSelected
 }
 
 export default projectModule;
