@@ -117,7 +117,7 @@ function formatDate(date) {
             .join('/');
 }
 
-const addProjectLink = (projectName, dataNum = storageModule.numOfProjects()) => {
+const addProjectLink = (projectName, dataNum = projectModule.projArray.length) => {
     const projects = document.querySelector('.projects');
 
     //create new list element, set dataset link to project(count);
@@ -125,16 +125,23 @@ const addProjectLink = (projectName, dataNum = storageModule.numOfProjects()) =>
     newLink.className = "selection project tab";
     newLink.dataset.num = dataNum;
     //create icon
+    const leftWrapper = document.createElement('div');
     const icon = document.createElement('i');
     icon.className = 'far fa-list-alt';
     //create default project name
     const projTitle = document.createElement('span');
     projTitle.className = 'project-title';
     projTitle.textContent = projectName;
+    //create delete button - to be shown only on hover
+    const deleteIcon = document.createElement('div');
+    deleteIcon.innerHTML = '<i class="far fa-trash-alt"></i>'
+    deleteIcon.className = 'project-delete';
     
     //append children to link
-    newLink.appendChild(icon);
-    newLink.appendChild(projTitle);
+    leftWrapper.appendChild(icon);
+    leftWrapper.appendChild(projTitle);
+    newLink.appendChild(leftWrapper);
+    newLink.appendChild(deleteIcon);
 
     //append link to project
     projects.appendChild(newLink);

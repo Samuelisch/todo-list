@@ -24,33 +24,52 @@ let projArray = [];
 
 //check if storage has first element
 if (storageModule.hasStorage()) {
-    currProj = storageModule.getProject(0);
+    console.log('default project in storage exist, getting default..')
+    projArray = storageModule.getProjects();
+    currProj = projArray[0];
+    //get more if storage exists
+    getMoreProjects();
 } else { //else create own project and save to storage
+    console.log('no storage exists, creating new and saving..')
     currProj = CreateProject('default');
     currProj.setDataNum(0);
+    //save to localStorage under projects
+    addToArray(currProj);
 }
-//save to localStorage under projects
-updateArray(currProj);
 
-{ //check if there are existing projects in storage
-    if (storageModule.numOfProjects() > 1) {
-        const len = storageModule.numOfProjects()
+
+function getMoreProjects() { //check if there are existing projects in storage
+    if (projArray.length > 1) {
+        console.log("there's more projects! getting them..")
+        const len = projArray.length;
         //go through all stored projects and add them to link
         for (let i = 1; i < len; i++) {
-            let proj = storageModule.getProject(i);
+            let proj = projArray[i];
+            console.log(proj.dataNum, proj.title);
             UIModule.addProjectLink(proj.title, proj.dataNum);
         }
     }
 }
 
-function updateArray(proj) {
-    projArray.push(proj);
-    storageModule.addProjToStorage(projArray);
+function deleteProj(dataNum) {
+    //identify project from projArray using dataNum to match position in array
+    //delete that project, and update projects after that - change dataNums to one number lower
 }
 
+
+function addToArray(proj) {
+    console.log('adding to array..')
+    projArray.push(proj);
+    saveArray();
+}
+
+function saveArray() {
+    console.log('saving proj array to storage..')
+    storageModule.addProjToStorage(projArray);
+}
 //switch projects to selected from UI
 function changeProject(dataNum) {
-    currProj = storageModule.getProject(dataNum);
+    currProj = projArray[dataNum];
     console.log(`project changed to ${currProj.title}, dataNum: ${currProj.dataNum}`);
 }
 
@@ -58,9 +77,8 @@ function changeProject(dataNum) {
 function addNewProject(projectName) {
     //create new instance of project
     const newProject = CreateProject(projectName);
-    newProject.dataNum = storageModule.numOfProjects();
-    updateArray(newProject);
-    console.log(projArray);
+    newProject.dataNum = projArray.length;
+    addToArray(newProject);
 }
 
 const projectModule = {
@@ -69,6 +87,7 @@ const projectModule = {
     currProj,
     projArray,
     changeProject,
+    deleteProj
 }
 
 export default projectModule;

@@ -13,11 +13,7 @@ const CreateTask = (title, due, completed) => {
         this.due = due;
     }
 
-    function setComplete(bool) {
-        this.completed = bool
-    }
-
-    return {title, due, completed, dataNum, setTitle, setDue, setComplete};
+    return {title, due, project, completed, dataNum, setTitle, setDue};
 };
 
 function addNewTask(taskName) {

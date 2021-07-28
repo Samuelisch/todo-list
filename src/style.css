@@ -87,6 +87,22 @@ h3 {
     display: none;
 }
 
+.project {
+    justify-content: space-between;
+}
+
+.project-delete {
+    display: none;
+}
+
+.project-delete:hover {
+    color:rgb(190, 39, 39);
+}
+
+.project:hover .project-delete {
+    display: block;
+}
+
 .content {
     margin: 20px;
 }
