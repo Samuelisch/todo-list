@@ -31,8 +31,8 @@ if (storageModule.hasTasks()) {
 
 function toggleComplete(num) {
     //set task completed to opposite of itself, identified with dataNum from UIModule
-    taskArray[num].complete = !taskArray[num].complete;
-    
+    taskArray[num].completed = !taskArray[num].completed;
+    console.log(taskArray[num]);
     saveArray();
 }
 

@@ -57,8 +57,11 @@ const pageFunctions = (() => {
 
     function checkLink(e) {
         let link = e.target;
-        if (link == dayTab || link == weekTab) {
-            console.log(link);
+        //if day or week tabs selected
+        if (link == dayTab) {
+            return;
+        }
+        if (link == weekTab) {
             return;
         }
         if (link.classList.contains('fa-trash-alt')) {
@@ -252,6 +255,11 @@ const addTaskCell = (taskName, dueDate, completed, dataNum = taskModule.numOfTas
     taskInfo.appendChild(taskDue);
     taskInfo.appendChild(sideIconsWrapper);
     newTask.appendChild(taskInfo);
+
+    //check if task is complete according to input parameters
+    if (completed) {
+        editTask.completeTask(newTask);
+    }
 
     //create task edit form
     const taskEditForm = document.createElement('form');
