@@ -59,7 +59,6 @@ const pageFunctions = (() => {
         let link = e.target;
         //check if same link as selected
         if (sameLink(link)) {
-            console.log('same link');
             return;
         }
 

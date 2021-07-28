@@ -23,7 +23,6 @@ let currentProjTasks = [];
 
 //check if storage has tasks
 if (storageModule.hasTasks()) {
-    console.log('tasks in storage exist, getting tasks..')
     taskArray = storageModule.getTasks();
     //add to currProjArr
     setCurrentTasks(projectModule.currentProjectSelected());
@@ -32,7 +31,6 @@ if (storageModule.hasTasks()) {
 function toggleComplete(num) {
     //set task completed to opposite of itself, identified with dataNum from UIModule
     taskArray[num].completed = !taskArray[num].completed;
-    console.log(taskArray[num]);
     saveArray();
 }
 
@@ -45,15 +43,19 @@ function updateTaskInfo(num, newTitle, newDue) {
 }
 
 function showTasksToday(date) {
-    currentProjTasks = taskArray.filter(task => task.due == date)
+    currentProjTasks = taskArray.filter(task => task.due == date);
     //show filtered array
     showCurrentTasks();
 }
 
 function showWeekTasks(dateRange) {
+    let totalTasks = [];
     for (let date of dateRange) {
-        console.log(date);
+        let dayArray = taskArray.filter(task => task.due == date);
+        totalTasks = totalTasks.concat(dayArray);
     }
+    currentProjTasks = totalTasks;
+    showCurrentTasks();
 }
 
 function setCurrentTasks(project) {
@@ -70,13 +72,11 @@ function showCurrentTasks() {
 }
 
 function addToArray(task) {
-    console.log('adding to task array..');
     taskArray.push(task);
     saveArray();
 }
 
 function saveArray() {
-    console.log('saving task array to storage..')
     storageModule.addTaskToStorage(taskArray);
 }
 

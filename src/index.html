@@ -14,53 +14,60 @@
                 <button class="nav-btn"><i class="fas fa-bars fa-2x"></i></button>
             </div>
         </header>
-            <div class="nav-bar">
-                <div class="wrapper">
-                    <ul class="list">
-                        <li data-num="0" class="selection tab selected">
-                            <i class="fas fa-globe-americas"></i>
-                            <span>Inbox</span>
-                        </li>
-                        <li class="selection tab day">
-                            <i class="fas fa-calendar-day"></i>
-                            <span>Today</span>
-                        </li>
-                        <li class="selection tab week">
-                            <i class="fas fa-calendar-week"></i>
-                            <span>This week</span>
-                        </li>
-                    </ul>
-                    <h3>Projects</h3>
-                    <ul class="list projects">
-                    </ul>
-                    <div class="selection add-project-btn display">
-                            <i class="fas fa-plus fa"></i>
-                            <span>Add project</span>
-                    </div>
-                    <form class="project-form">
-                        <input placeholder="Project">
-                        <div>
-                            <button type="submit" class="project-submit-btn">Confirm</button>
-                            <button type="button" class="project-cancel-btn">Cancel</button>
+
+        <div class="content-wrapper">
+            <div class="nav-wrap">
+                <div class="nav-bar">
+                    <div class="wrapper">
+                        <ul class="list">
+                            <li data-num="0" class="selection tab selected">
+                                <i class="fas fa-globe-americas"></i>
+                                <span>Inbox</span>
+                            </li>
+                            <li class="selection tab day">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>Today</span>
+                            </li>
+                            <li class="selection tab week">
+                                <i class="fas fa-calendar-week"></i>
+                                <span>This week</span>
+                            </li>
+                        </ul>
+                        <h3>Projects</h3>
+                        <ul class="list projects">
+                        </ul>
+                        <div class="selection add-project-btn display">
+                                <i class="fas fa-plus fa"></i>
+                                <span>Add project</span>
                         </div>
-                    </form>
+                        <form class="project-form">
+                            <input placeholder="Project">
+                            <div>
+                                <button type="submit" class="project-submit-btn">Confirm</button>
+                                <button type="button" class="project-cancel-btn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-        <main class="content">
-            <div class="list tasks"></div>
-        </main>
+            <div class="main-wrapper">
+                <main class="content">
+                    <div class="list tasks"></div>
+                </main>
 
-        <div class="add-task-btn selection display">
-            <i class="fas fa-plus fa-lg"></i>
-            <span>Add task</span>
-        </div>
-        <form class="task-form">
-            <input placeholder="Task">
-            <div>
-                <button type="submit" class="task-submit-btn">Confirm</button>
-                <button type="button" class="task-cancel-btn">Cancel</button>
+                <div class="add-task-btn selection display">
+                    <i class="fas fa-plus fa-lg"></i>
+                    <span>Add task</span>
+                </div>
+                <form class="task-form">
+                    <input placeholder="Task">
+                    <div>
+                        <button type="submit" class="task-submit-btn">Confirm</button>
+                        <button type="button" class="task-cancel-btn">Cancel</button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </body>
 </html>

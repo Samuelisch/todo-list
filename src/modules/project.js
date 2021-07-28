@@ -24,13 +24,11 @@ let projArray = [];
 
 //check if storage has first element
 if (storageModule.hasProjects()) {
-    console.log('default project in storage exists, getting default..')
     projArray = storageModule.getProjects();
     currProj = projArray[0];
     //get more if storage exists
     showProjects();
 } else { //else create own project and save to storage
-    console.log('no storage exists, creating new and saving..')
     currProj = CreateProject('inbox');
     currProj.setDataNum(0);
     //save to localStorage under projects
@@ -48,12 +46,10 @@ if (storageModule.hasProjects()) {
 
 function showProjects() { //check if there are existing projects in storage
     if (projArray.length > 3) {
-        console.log("there's more projects! getting them..")
         const len = projArray.length;
         //go through all stored projects and add them to link
         for (let i = 3; i < len; i++) {
             let proj = projArray[i];
-            console.log(`loaded: datanum ${proj.dataNum}, title ${proj.title}`);
             UIModule.addProjectLink(proj.title, proj.dataNum);
         }
     }
@@ -78,13 +74,11 @@ function updateArray(arr) {
 
 
 function addToArray(proj) {
-    console.log('adding to array..')
     projArray.push(proj);
     saveArray();
 }
 
 function saveArray() {
-    console.log('saving proj array to storage..')
     storageModule.addProjToStorage(projArray);
 }
 
@@ -95,7 +89,6 @@ function currentProjectSelected() {
 //switch projects to selected from UI
 function changeProject(dataNum) {
     currProj = projArray[dataNum];
-    console.log(`project changed to ${currProj.title}, dataNum: ${currProj.dataNum}`);
 }
 
 function projectExists(projectName) {
