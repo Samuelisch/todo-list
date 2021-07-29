@@ -323,6 +323,10 @@ h3 {
     .wrapper ul:first-child {
         margin-top: 80px;
     }
+
+    .project-form {
+        margin-top: 10px;
+    }
     
     .content-wrapper {
         display: flex;
@@ -333,5 +337,11 @@ h3 {
         margin: 80px;
         flex: 2;
         max-width: 1000px;
+    }
+}
+
+@media (max-width: 1030px) {
+    .project-form .form-btns {
+        margin-top: 10px;
     }
 }
