@@ -1,5 +1,6 @@
-import storageModule from './storage.js'
-import UIModule from './UI.js'
+import storageModule from './storage.js';
+import UIModule from './UI.js';
+import taskModule from './task.js';
 
 //FACTORY FUNCTION FOR PROJECTS
 const CreateProject = (title) => {
@@ -56,6 +57,9 @@ function showProjects() { //check if there are existing projects in storage
 }
 
 function deleteProj(num) {
+    let project = projArray[num];
+    //delete all tasks in project
+    taskModule.deleteProjectTasks(project.title);
     //split array into two, removing affecting element
     let firstHalfArray = projArray.slice(0, num);
     let secondHalfArray = projArray.slice(parseInt(num) + 1);

@@ -42,13 +42,13 @@ function updateTaskInfo(num, newTitle, newDue) {
     saveArray();
 }
 
-function showTasksToday(date) {
+function showTasksToday(date = UIModule.getDateToday()) {
     currentProjTasks = taskArray.filter(task => task.due == date);
     //show filtered array
     showCurrentTasks();
 }
 
-function showWeekTasks(dateRange) {
+function showWeekTasks(dateRange = UIModule.getWeek()) {
     let totalTasks = [];
     for (let date of dateRange) {
         let dayArray = taskArray.filter(task => task.due == date);
@@ -93,7 +93,7 @@ function addNewTask(taskName) {
     addToArray(newTask);
 }
 
-function deleteTask(num) {
+function removeandUpdateArray(num) {
     //split array into two, removing affecting element
     let firstHalfArray = taskArray.slice(0, num);
     let secondHalfArray = taskArray.slice(parseInt(num) + 1);
@@ -101,15 +101,34 @@ function deleteTask(num) {
     secondHalfArray.forEach(e => e.dataNum -= 1);
     
     //assign array back to original projArray
-    let tempArray = firstHalfArray.concat(secondHalfArray);
-    updateArray(tempArray);
+    taskArray = firstHalfArray.concat(secondHalfArray);
+    saveArray();
 }
 
-function updateArray(arr) {
-    taskArray = arr;
-    saveArray();
+function deleteTask(num) {
+    removeandUpdateArray(num);
+    updateArray();
+}
+
+function updateArray() {
     //reload all tasks to current project selected
+    if (projectModule.currentProjectSelected().title == 'today') {
+        showTasksToday();
+        return;
+    }
+    if (projectModule.currentProjectSelected().title == 'this week') {
+        showWeekTasks();
+        return;
+    }
     setCurrentTasks(projectModule.currentProjectSelected());
+}
+
+function deleteProjectTasks(title) {
+    taskArray.forEach(task => {
+        if (task.project == title) {
+            removeandUpdateArray(task.dataNum);
+        }
+    });
 }
 
 const task = {
@@ -121,7 +140,8 @@ const task = {
     updateTaskInfo,
     deleteTask,
     showTasksToday,
-    showWeekTasks
+    showWeekTasks,
+    deleteProjectTasks
 }
 
 export default task;

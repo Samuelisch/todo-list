@@ -447,7 +447,8 @@ const editTask = (() => {
 const UI = {
     addProjectLink,
     addTaskCell,
-    getDateToday
+    getDateToday,
+    getWeek
 };
 
 export default UI;

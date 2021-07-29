@@ -175,12 +175,6 @@ h3 {
     display: block;
 }
 
-.add-task-btn {
-    font-size: 1.5rem;
-    display: none;
-    text-align: center;
-}
-
 .task-edit-form {
     display: none;
     height: 50px;
@@ -230,6 +224,44 @@ h3 {
 .project-form,
 .task-form {
     display: none;
+    font-size: 13px;
+}
+
+.task-form {
+    text-align: center;
+}
+
+.add-task-btn {
+    font-size: 1.5rem;
+    display: none;
+    text-align: center;
+}
+
+.form-input {
+    border-radius: 3px;
+    border: 1px solid var(--black);
+    padding: 4px 8px;
+}
+
+.form-btns {
+    display: inline-block;
+}
+
+.form-btns button {
+    padding: 3px;
+}
+
+.task-submit-btn:hover,
+.project-submit-btn:hover {
+    background:rgba(149, 229, 149, 0.9);
+    border: 2px solid rgba(149, 229, 149, 0.9);
+}
+
+.task-cancel-btn:hover,
+.project-cancel-btn:hover {
+    background:rgba(196, 94, 94, 0.9);
+    color:rgb(235, 235, 235);
+    border: 2px solid rgba(196, 94, 94, 0.9);
 }
 
 .display-flex {
