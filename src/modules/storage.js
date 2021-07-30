@@ -2,7 +2,7 @@ function getProjects() {
     return JSON.parse(localStorage.getItem(0));
 }
 
-//check if localStorage has items
+// check if localStorage has items
 function hasProjects() {
     return localStorage[0];
 }

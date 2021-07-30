@@ -1,35 +1,37 @@
-import projectModule from './project.js';
-import storageModule from './storage.js';
-import UIModule from './UI.js';
+import projectModule from './project';
+import storageModule from './storage';
+import UIModule from './UI';
 
-//FACTORY FUNCTION FOR TASKS
+// FACTORY FUNCTION FOR TASKS
 const CreateTask = (title, due, completed) => {
     let project;
     let dataNum;
-    //change title, flag or date
-    function setTitle(title) {
-        this.title = title;
+    // change title, flag or date
+    function setTitle(t) {
+        this.title = t;
     }
 
-    function setDue(due) {
-        this.due = due;
+    function setDue(date) {
+        this.due = date;
     }
 
-    return {title, due, project, completed, dataNum, setTitle, setDue};
+    return {
+        title, due, project, completed, dataNum, setTitle, setDue,
+    };
 };
 
 let taskArray = [];
 let currentProjTasks = [];
 
-//check if storage has tasks
+// check if storage has tasks
 if (storageModule.hasTasks()) {
     taskArray = storageModule.getTasks();
-    //add to currProjArr
+    // add to currProjArr
     setCurrentTasks(projectModule.currentProjectSelected());
 }
 
 function toggleComplete(num) {
-    //set task completed to opposite of itself, identified with dataNum from UIModule
+    // set task completed to opposite of itself, identified with dataNum from UIModule
     taskArray[num].completed = !taskArray[num].completed;
     saveArray();
 }
@@ -43,18 +45,18 @@ function updateTaskInfo(num, newTitle, newDue) {
 }
 
 function showTasksToday(date = UIModule.getDateToday()) {
-    currentProjTasks = taskArray.filter(task => task.due == date);
-    //show filtered array
+    currentProjTasks = taskArray.filter((task) => task.due === date);
+    // show filtered array
     showCurrentTasks();
 }
 
 function showWeekTasks(dateRange = UIModule.getWeek()) {
     let totalTasks = [];
-    for (let date of dateRange) {
+    dateRange.forEach((date) => {
         const dateSelected = date;
-        let dayArray = taskArray.filter(task => task.due == dateSelected);
+        const dayArray = taskArray.filter((task) => task.due === dateSelected);
         totalTasks = totalTasks.concat(dayArray);
-    }
+    });
     currentProjTasks = totalTasks;
     showCurrentTasks();
 }
@@ -69,7 +71,9 @@ function numOfTasks() {
 }
 
 function showCurrentTasks() {
-    currentProjTasks.forEach(task => UIModule.addTaskCell(task.title, task.due, task.completed, task.dataNum));
+    currentProjTasks.forEach((task) => {
+        UIModule.addTaskCell(task.title, task.due, task.completed, task.dataNum)
+    });
 }
 
 function addToArray(task) {
@@ -82,26 +86,28 @@ function saveArray() {
 }
 
 function addNewTask(taskName) {
-    //new instance from task factory
+    // new instance from task factory
     const newTask = CreateTask(taskName);
-    //update dataNum
+    // update dataNum
     newTask.dataNum = taskArray.length;
     newTask.due = UIModule.getDateToday();
-    //update linking project
+    // update linking project
     const projectSelected = projectModule.currentProjectSelected();
     newTask.project = projectSelected.title;
-    //add to task array
+    // add to task array
     addToArray(newTask);
 }
 
 function removeandUpdateArray(num) {
-    //split array into two, removing affecting element
-    let firstHalfArray = taskArray.slice(0, num);
-    let secondHalfArray = taskArray.slice(parseInt(num) + 1);
-    //update dataNum of remaining tabs
-    secondHalfArray.forEach(e => e.dataNum -= 1);
-    
-    //assign array back to original projArray
+    // split array into two, removing affecting element
+    const firstHalfArray = taskArray.slice(0, num);
+    const secondHalfArray = taskArray.slice(parseInt(num, 10) + 1);
+    // update dataNum of remaining tabs
+    secondHalfArray.forEach((e) => {
+        e.dataNum -= 1;
+    });
+
+    // assign array back to original projArray
     taskArray = firstHalfArray.concat(secondHalfArray);
     saveArray();
 }
@@ -112,12 +118,12 @@ function deleteTask(num) {
 }
 
 function updateArray() {
-    //reload all tasks to current project selected
-    if (projectModule.currentProjectSelected().title == 'today') {
+    // reload all tasks to current project selected
+    if (projectModule.currentProjectSelected().title === 'today') {
         showTasksToday();
         return;
     }
-    if (projectModule.currentProjectSelected().title == 'this week') {
+    if (projectModule.currentProjectSelected().title === 'this week') {
         showWeekTasks();
         return;
     }
@@ -125,8 +131,8 @@ function updateArray() {
 }
 
 function deleteProjectTasks(title) {
-    taskArray.forEach(task => {
-        if (task.project == title) {
+    taskArray.forEach((task) => {
+        if (task.project === title) {
             removeandUpdateArray(task.dataNum);
         }
     });
