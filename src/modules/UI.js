@@ -30,7 +30,7 @@ const pageFunctions = (() => {
             return;
         }
         if (projectModule.projectExists(title)) {
-            alert("Project already exists!")
+            alert("Project already exists!");
             return;
         }
         //add DOM elements
@@ -158,7 +158,7 @@ function getWeek() {
     for (let i = 0; i < 7; i++) {
         let d = new Date();
         d.setDate(d.getDate() + i);
-        result.push(formatDate(`${d.getFullYear()}-${fillSingleNum(d.getMonth() + 1)}-${fillSingleNum(d.getDate())}`) )
+        result.push(formatDate(`${d.getFullYear()}-${fillSingleNum(d.getMonth() + 1)}-${fillSingleNum(d.getDate())}`));
     }
 
     return result;
@@ -166,7 +166,7 @@ function getWeek() {
 
 function fillSingleNum(num) {
     if (num < 10) {
-        return `0${num}`
+        return `0${num}`;
     }
     return num;
 }
@@ -187,7 +187,7 @@ const addProjectLink = (projectName, dataNum = projectModule.numOfProjects()) =>
     newLink.dataset.num = dataNum;
     //create icon
     const leftWrapper = document.createElement('div');
-    leftWrapper.className = 'project-info'
+    leftWrapper.className = 'project-info';
     const icon = document.createElement('i');
     icon.className = 'far fa-list-alt';
     //create default project name
@@ -196,7 +196,7 @@ const addProjectLink = (projectName, dataNum = projectModule.numOfProjects()) =>
     projTitle.textContent = projectName;
     //create delete button - to be shown only on hover
     const deleteIcon = document.createElement('div');
-    deleteIcon.innerHTML = '<i class="far fa-trash-alt"></i>'
+    deleteIcon.innerHTML = '<i class="far fa-trash-alt"></i>';
     deleteIcon.className = 'project-delete';
     
     //append children to link
@@ -211,14 +211,14 @@ const addProjectLink = (projectName, dataNum = projectModule.numOfProjects()) =>
     newLink.addEventListener('click', pageFunctions.checkLink);
 
     deleteIcon.addEventListener('click', () => deleteProjectLink(newLink));
-}
+};
 
 const removeProjectLink = (linkToRemove, num) => {
     linkToRemove.remove();
     clearContent();
     //update projectArray
     projectModule.deleteProj(num);
-}
+};
 
 const updateProjectNums= (dataNum) => {
     const remainingProjects = document.querySelectorAll("[data-num]");
@@ -232,14 +232,14 @@ const updateProjectNums= (dataNum) => {
         project.dataset.num -= 1;
         //update projectArray and save to localStorage
     }
-}
+};
 
 const deleteProjectLink = (link) => {
     const dataNum = link.dataset.num;
     //remove html element
     removeProjectLink(link, dataNum);
     updateProjectNums(dataNum);
-}
+};
 
 const addTaskCell = (taskName, dueDate, completed, dataNum = taskModule.numOfTasks()) => {
 
@@ -266,11 +266,11 @@ const addTaskCell = (taskName, dueDate, completed, dataNum = taskModule.numOfTas
     //create edit form for this too, to select date
     const taskDue = document.createElement('div');
     taskDue.className = 'date';
-    taskDue.textContent = dueDate || getDateToday()
+    taskDue.textContent = dueDate || getDateToday();
 
     //append edit and delete icons to right side of date div.
     const sideIconsWrapper = document.createElement('div');
-    sideIconsWrapper.className = 'side-icons-wrapper'
+    sideIconsWrapper.className = 'side-icons-wrapper';
     const editIcon = document.createElement('span');
     editIcon.className = 'edit-icon';
     editIcon.innerHTML = '<i class="far fa-edit"></i>';
@@ -368,7 +368,7 @@ const addTaskCell = (taskName, dueDate, completed, dataNum = taskModule.numOfTas
             editDate.value = formatDate(date);
         }
     });
-}
+};
 
 const editTask = (() => {
     function completeTask(task) {
@@ -441,7 +441,7 @@ const editTask = (() => {
         document.querySelector('.tasks').innerHTML = '';
     }
 
-    return {displayEdit, resetEdit, submitEdit, completeTask, uncompleteTask, deleteTask}
+    return {displayEdit, resetEdit, submitEdit, completeTask, uncompleteTask, deleteTask};
 })();
 
 const UI = {

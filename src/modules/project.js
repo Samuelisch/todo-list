@@ -10,14 +10,14 @@ const CreateProject = (title) => {
     //function to set title
     function setTitle(title) {
         this.title = title;
-    };
+    }
 
     function setDataNum(num) {
         this.dataNum = num;
     }
 
     return {title, setTitle, dataNum, setDataNum};
-}
+};
 
 //initial load of webpage - 
 let currProj;
@@ -108,7 +108,7 @@ function addNewProject(projectName) {
 }
 
 function numOfProjects() {
-    return projArray.length
+    return projArray.length;
 }
 
 const projectModule = {
@@ -119,6 +119,6 @@ const projectModule = {
     deleteProj,
     numOfProjects,
     currentProjectSelected
-}
+};
 
 export default projectModule;

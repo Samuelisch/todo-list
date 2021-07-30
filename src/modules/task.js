@@ -1,6 +1,6 @@
 import projectModule from './project.js';
 import storageModule from './storage.js';
-import UIModule from './UI.js'
+import UIModule from './UI.js';
 
 //FACTORY FUNCTION FOR TASKS
 const CreateTask = (title, due, completed) => {
@@ -51,7 +51,8 @@ function showTasksToday(date = UIModule.getDateToday()) {
 function showWeekTasks(dateRange = UIModule.getWeek()) {
     let totalTasks = [];
     for (let date of dateRange) {
-        let dayArray = taskArray.filter(task => task.due == date);
+        const dateSelected = date;
+        let dayArray = taskArray.filter(task => task.due == dateSelected);
         totalTasks = totalTasks.concat(dayArray);
     }
     currentProjTasks = totalTasks;
@@ -142,6 +143,6 @@ const task = {
     showTasksToday,
     showWeekTasks,
     deleteProjectTasks
-}
+};
 
 export default task;

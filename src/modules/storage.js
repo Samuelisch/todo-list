@@ -30,6 +30,6 @@ const storage = {
     getTasks,
     hasTasks,
     addTaskToStorage,
-}
+};
 
 export default storage;
