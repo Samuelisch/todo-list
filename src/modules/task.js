@@ -62,7 +62,7 @@ function showWeekTasks(dateRange = UIModule.getWeek()) {
 }
 
 function setCurrentTasks(project) {
-    currentProjTasks = taskArray.filter(task => task.project == project.title);
+    currentProjTasks = taskArray.filter((task) => task.project === project.title);
     showCurrentTasks();
 }
 
@@ -72,7 +72,7 @@ function numOfTasks() {
 
 function showCurrentTasks() {
     currentProjTasks.forEach((task) => {
-        UIModule.addTaskCell(task.title, task.due, task.completed, task.dataNum)
+        UIModule.addTaskCell(task.title, task.due, task.completed, task.dataNum);
     });
 }
 
@@ -148,7 +148,7 @@ const task = {
     deleteTask,
     showTasksToday,
     showWeekTasks,
-    deleteProjectTasks
+    deleteProjectTasks,
 };
 
 export default task;

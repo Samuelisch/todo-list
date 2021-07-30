@@ -9,8 +9,8 @@ const CreateProject = (title) => {
     let dataNum;
 
     // function to set title
-    function setTitle(title) {
-        this.title = title;
+    function setTitle(t) {
+        this.title = t;
     }
 
     function setDataNum(num) {
@@ -64,7 +64,7 @@ function deleteProj(num) {
     taskModule.deleteProjectTasks(project.title);
     // split array into two, removing affecting element
     const firstHalfArray = projArray.slice(0, num);
-    const secondHalfArray = projArray.slice(parseInt(num) + 1);
+    const secondHalfArray = projArray.slice(parseInt(num, 10) + 1);
     // update dataNum of remaining tabs
     secondHalfArray.forEach((e) => {
         e.dataNum -= 1;

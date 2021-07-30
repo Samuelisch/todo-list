@@ -98,7 +98,7 @@ const pageFunctions = (() => {
     }
 
     function sameLink(link) {
-        return (linkSelected() == link);
+        return (linkSelected() === link);
     }
 
     function linkSelected() {
