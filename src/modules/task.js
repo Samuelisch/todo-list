@@ -1,6 +1,4 @@
-import projectModule from './project';
 import storageModule from './storage';
-import UIModule from './UI';
 
 // FACTORY FUNCTION FOR TASKS
 const CreateTask = (title, due, completed) => {
@@ -23,15 +21,58 @@ const CreateTask = (title, due, completed) => {
 let taskArray = [];
 let currentProjTasks = [];
 
-// check if storage has tasks
-if (storageModule.hasTasks()) {
-    taskArray = storageModule.getTasks();
-    // add to currProjArr
-    setCurrentTasks(projectModule.currentProjectSelected());
+function saveArray() {
+    storageModule.addTaskToStorage(taskArray);
+}
+
+function getTaskArray() {
+    return taskArray;
+}
+
+function getCurrentProjTasks() {
+    return currentProjTasks;
+}
+
+function setTaskArray(arr) {
+    taskArray = arr;
+}
+
+function setCurrentProjTasks(arr) {
+    currentProjTasks = arr;
+}
+
+function fillSingleNum(num) {
+    if (num < 10) {
+        return `0${num}`;
+    }
+    return num;
+}
+
+function formatDate(date) {
+    return date
+        .split('-')
+        .reverse()
+        .join('/');
+}
+
+function getDateToday() {
+    const date = new Date();
+    return formatDate(`${date.getFullYear()}-${fillSingleNum(date.getMonth() + 1)}-${fillSingleNum(date.getDate())}`);
+}
+
+function getWeek() {
+    const result = [];
+    for (let i = 0; i < 7; i += 1) {
+        const d = new Date();
+        d.setDate(d.getDate() + i);
+        result.push(formatDate(`${d.getFullYear()}-${fillSingleNum(d.getMonth() + 1)}-${fillSingleNum(d.getDate())}`));
+    }
+
+    return result;
 }
 
 function toggleComplete(num) {
-    // set task completed to opposite of itself, identified with dataNum from UIModule
+    // set task completed to opposite of itself, identified with dataNum from UI
     taskArray[num].completed = !taskArray[num].completed;
     saveArray();
 }
@@ -44,13 +85,13 @@ function updateTaskInfo(num, newTitle, newDue) {
     saveArray();
 }
 
-function showTasksToday(date = UIModule.getDateToday()) {
+function getTasksToday(date = getDateToday()) {
     currentProjTasks = taskArray.filter((task) => task.due === date);
     // show filtered array
-    showCurrentTasks();
+    return currentProjTasks;
 }
 
-function showWeekTasks(dateRange = UIModule.getWeek()) {
+function getWeekTasks(dateRange = getWeek()) {
     let totalTasks = [];
     dateRange.forEach((date) => {
         const dateSelected = date;
@@ -58,22 +99,11 @@ function showWeekTasks(dateRange = UIModule.getWeek()) {
         totalTasks = totalTasks.concat(dayArray);
     });
     currentProjTasks = totalTasks;
-    showCurrentTasks();
-}
-
-function setCurrentTasks(project) {
-    currentProjTasks = taskArray.filter((task) => task.project === project.title);
-    showCurrentTasks();
+    return currentProjTasks;
 }
 
 function numOfTasks() {
     return taskArray.length;
-}
-
-function showCurrentTasks() {
-    currentProjTasks.forEach((task) => {
-        UIModule.addTaskCell(task.title, task.due, task.completed, task.dataNum);
-    });
 }
 
 function addToArray(task) {
@@ -81,24 +111,19 @@ function addToArray(task) {
     saveArray();
 }
 
-function saveArray() {
-    storageModule.addTaskToStorage(taskArray);
-}
-
-function addNewTask(taskName) {
+function addNewTask(taskName, project) {
     // new instance from task factory
     const newTask = CreateTask(taskName);
     // update dataNum
     newTask.dataNum = taskArray.length;
-    newTask.due = UIModule.getDateToday();
+    newTask.due = getDateToday();
     // update linking project
-    const projectSelected = projectModule.currentProjectSelected();
-    newTask.project = projectSelected.title;
+    newTask.project = project.title;
     // add to task array
     addToArray(newTask);
 }
 
-function removeandUpdateArray(num) {
+function deleteTask(num) {
     // split array into two, removing affecting element
     const firstHalfArray = taskArray.slice(0, num);
     const secondHalfArray = taskArray.slice(parseInt(num, 10) + 1);
@@ -112,28 +137,13 @@ function removeandUpdateArray(num) {
     saveArray();
 }
 
-function deleteTask(num) {
-    removeandUpdateArray(num);
-    updateArray();
-}
-
-function updateArray() {
-    // reload all tasks to current project selected
-    if (projectModule.currentProjectSelected().title === 'today') {
-        showTasksToday();
-        return;
-    }
-    if (projectModule.currentProjectSelected().title === 'this week') {
-        showWeekTasks();
-        return;
-    }
-    setCurrentTasks(projectModule.currentProjectSelected());
-}
-
-function deleteProjectTasks(title) {
+function deleteProjectTasks(num) {
+    const projects = storageModule.getProjects();
+    const project = projects[num];
+    const { title } = project;
     taskArray.forEach((task) => {
         if (task.project === title) {
-            removeandUpdateArray(task.dataNum);
+            deleteTask(task.dataNum);
         }
     });
 }
@@ -141,14 +151,20 @@ function deleteProjectTasks(title) {
 const task = {
     CreateTask,
     addNewTask,
-    setCurrentTasks,
     numOfTasks,
     toggleComplete,
     updateTaskInfo,
     deleteTask,
-    showTasksToday,
-    showWeekTasks,
+    getTasksToday,
+    getWeekTasks,
+    getCurrentProjTasks,
+    getTaskArray,
+    getDateToday,
+    getWeek,
+    formatDate,
     deleteProjectTasks,
+    setTaskArray,
+    setCurrentProjTasks,
 };
 
 export default task;
