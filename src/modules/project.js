@@ -1,8 +1,4 @@
-/* eslint-disable prefer-destructuring */
 import storageModule from './storage';
-import UIModule from './UI';
-import taskModule from './task';
-
 // FACTORY FUNCTION FOR PROJECTS
 const CreateProject = (title) => {
     // initialise project array
@@ -22,46 +18,51 @@ const CreateProject = (title) => {
     };
 };
 
-// initial load of webpage
+// on initial load of webpage
 let currProj;
 let projArray = [];
 
-// check if storage has first element
-if (storageModule.hasProjects()) {
-    projArray = storageModule.getProjects();
-    currProj = projArray[0];
-    // get more if storage exists
-    showProjects();
-} else { // else create own project and save to storage
-    currProj = CreateProject('inbox');
-    currProj.setDataNum(0);
-    // save to localStorage under projects
-    addToArray(currProj);
-
-    const dayProj = CreateProject('today');
-    dayProj.setDataNum(1);
-    addToArray(dayProj);
-
-    const weekProj = CreateProject('this week');
-    weekProj.setDataNum(2);
-    addToArray(weekProj);
+function setCurrentProject(project) {
+    currProj = project;
 }
 
-function showProjects() { // check if there are existing projects in storage
-    if (projArray.length > 3) {
-        const len = projArray.length;
-        // go through all stored projects and add them to link
-        for (let i = 3; i < len; i += 1) {
-            const proj = projArray[i];
-            UIModule.addProjectLink(proj.title, proj.dataNum);
-        }
-    }
+function setProjectArray(arr) {
+    projArray = arr;
+}
+
+function getCurrentProject() {
+    return currProj;
+}
+
+function getProjectArray() {
+    return projArray;
+}
+
+function getProject(num) {
+    return projArray[num];
+}
+
+function saveArray() {
+    // save array to storage - update storage values
+    storageModule.addProjToStorage(projArray);
+}
+
+function updateArray(arr) {
+    setProjectArray(arr);
+    saveArray();
+}
+
+function addToArray(proj) {
+    projArray.push(proj);
+    updateArray(projArray);
+}
+
+// switch projects to selected from UI
+function changeProject(dataNum) {
+    currProj = projArray[dataNum];
 }
 
 function deleteProj(num) {
-    const project = projArray[num];
-    // delete all tasks in project
-    taskModule.deleteProjectTasks(project.title);
     // split array into two, removing affecting element
     const firstHalfArray = projArray.slice(0, num);
     const secondHalfArray = projArray.slice(parseInt(num, 10) + 1);
@@ -73,33 +74,6 @@ function deleteProj(num) {
     // assign array back to original projArray
     const tempArray = firstHalfArray.concat(secondHalfArray);
     updateArray(tempArray);
-}
-
-function updateArray(arr) {
-    projArray = arr;
-    saveArray();
-}
-
-function addToArray(proj) {
-    projArray.push(proj);
-    saveArray();
-}
-
-function saveArray() {
-    storageModule.addProjToStorage(projArray);
-}
-
-function currentProjectSelected() {
-    return currProj;
-}
-
-// switch projects to selected from UI
-function changeProject(dataNum) {
-    currProj = projArray[dataNum];
-}
-
-function projectExists(projectName) {
-    return (projArray.map((project) => project.title).includes(projectName));
 }
 
 // ADD PROJECT / save to storage
@@ -117,11 +91,15 @@ function numOfProjects() {
 const projectModule = {
     CreateProject,
     addNewProject,
-    projectExists,
     changeProject,
-    deleteProj,
     numOfProjects,
-    currentProjectSelected,
+    getCurrentProject,
+    setCurrentProject,
+    getProjectArray,
+    setProjectArray,
+    getProject,
+    deleteProj,
+    addToArray,
 };
 
 export default projectModule;
