@@ -25,19 +25,23 @@ const taskBtnCancel = document.querySelector('.task-cancel-btn');
     function submitProjectForm(e) {
         e.preventDefault();
         // get title of project from form
-        const title = document.querySelector('.project-form input').value;
-        if (!title) {
-            alert('Input required');
+        const projectInput = document.querySelector('.project-form input');
+        const validInput = projectInput.validity;
+        const inputValue = projectInput.value;
+        if (validInput.valueMissing) {
+            projectInput.setCustomValidity('Please enter a name for this project');
+            projectInput.reportValidity();
             return;
         }
-        if (contentModule.projectExists(title)) {
-            alert('Project already exists!');
+        if (contentModule.projectExists(projectInput.value)) {
+            projectInput.setCustomValidity('Project already exists!');
+            projectInput.reportValidity();
             return;
         }
         // add DOM elements
-        contentModule.addProjectLink(title);
+        contentModule.addProjectLink(inputValue);
         // create new project instance
-        contentModule.createNewProject(title);
+        contentModule.createNewProject(inputValue);
         // cancel form display / reset
         contentModule.cancelForm(projectForm, addProjBtn);
     }
@@ -45,15 +49,18 @@ const taskBtnCancel = document.querySelector('.task-cancel-btn');
     function submitTaskForm(e) {
         e.preventDefault();
         // get title of task from form
-        const title = document.querySelector('.task-form input').value;
-        if (!title) {
-            alert('Input required');
+        const taskInput = document.querySelector('.task-form input');
+        const validInput = taskInput.validity;
+        const inputValue = taskInput.value;
+        if (validInput.valueMissing) {
+            taskInput.setCustomValidity('Please enter a name for this task');
+            taskInput.reportValidity();
             return;
         }
         // add DOM elements
-        contentModule.addTaskCell(title);
+        contentModule.addTaskCell(inputValue);
         // create new task instance
-        contentModule.createNewTask(title);
+        contentModule.createNewTask(inputValue);
         // cancel form display / reset
         contentModule.cancelForm(taskForm, addTaskBtn);
     }
