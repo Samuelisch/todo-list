@@ -1,5 +1,3 @@
-/* eslint-disable no-alert */
-/* eslint-disable prefer-destructuring */
 import contentModule from './content';
 import taskModule from './task';
 import projectModule from './project';
